@@ -29,4 +29,9 @@ Rails.application.routes.draw do
   get '/search', to: 'public/search#index', as: 'search'
   get '/maps/:prefecture_name', to: 'public/maps#show', as: 'map'
   
+  # ゲストログイン用
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
+  end
+  
 end

@@ -6,6 +6,9 @@
       <p>お出かけ場所の情報をみなさんで共有しましょう</p>
       <div class="btn-wrapper col-6 mx-auto">
         <div class="row pt-3">
+          <%= link_to 'ゲストログイン', users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in w-100", method: :post %>
+        </div>
+        <div class="row">
           <%= link_to 'ログイン', new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in w-100" %>
         </div>
         <div class="row">
