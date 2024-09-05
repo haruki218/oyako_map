@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   get '/mypage', to: 'public/users#mypage', as: 'mypage'
   resources :users, only: [:edit, :show, :update, :destroy], controller: 'public/users'
   resources :posts, controller: 'public/posts' do
+    collection do
+      get 'new_play', to: 'public/posts#new_play'
+      get 'new_facility', to: 'public/posts#new_facility'
+    end
     resources :comments, only: [:create, :destroy], controller: 'public/comments'
     resources :ratings, only: [:create], controller: 'public/ratings'
   end

@@ -1,0 +1,52 @@
+<h2>遊び場の投稿</h2>
+
+<%= form_with model: @post, url: posts_path, local: true do |f| %>
+    <div class="form-group">
+        <%= f.label :title, "施設名" %>
+        <%= f.text_field :title, class: "form-control", required: true %>
+    </div>
+
+    <div class="form-group" id="star">
+        <%= f.label :score, "5段階評価" %>
+        <%= f.hidden_field :score, id: :rating_score, class: 'form-control' %>
+        <div id="rating_raty"></div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :address, "住所" %>
+        <%= f.text_field :address, class: "form-control", required: true %>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :content, "コメント" %>
+        <%= text_area_tag :comment_content, '', class: "form-control", required: true %>
+    </div>
+  
+    <div class="form-group">
+    <label>オプション</label><br>
+    <% Tag.all.each do |tag| %>
+        <%= check_box_tag "post[tag_ids][]", tag.id, @post.tag_ids.include?(tag.id), id: "tag_#{tag.id}" %>
+        <%= label_tag "tag_#{tag.id}", tag.name %><br>
+      <% end %>
+    </div>
+
+    <%= f.submit "投稿する", class: "btn btn-primary" %>
+<% end %>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    let elem = document.querySelector('#rating_raty');
+    if (elem == null) return;
+
+    elem.innerHTML = ""
+    let opt = {  
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      scoreName: 'rating[score]',  // Ratingモデルのscoreカラムに対応
+      click: function(score, evt) {
+        $('#rating_score').val(score);  // 選択したスコアをhidden_fieldにセット
+      }
+    };
+    raty(elem, opt);  // Ratyを初期化
+  });
+</script>
