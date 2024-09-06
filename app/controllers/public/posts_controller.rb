@@ -24,7 +24,11 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    
+    if params[:facility_type] == 'nursing_room'
+      @post.title = '授乳室'
+    elsif params[:facility_type] == 'diaper_changing_station'
+      @post.title = 'おむつ替え'
+    end
     if @post.save
       @post.tags = Tag.where(id: params[:post][:tag_ids])
       if params[:comment].present? && params[:comment][:content].present?
@@ -48,8 +52,13 @@ class Public::PostsController < ApplicationController
   end
 
   def update
+    @post = Post.find(params[:id])
+    if params[:facility_type] == 'nursing_room'
+      @post.title = '授乳室'
+    elsif params[:facility_type] == 'diaper_changing_station'
+      @post.title = 'おむつ替え'
+    end
     if @post.update(post_params)
-      @post.tags = Tag.where(id: params[:post][:tag_ids])
       redirect_to @post, notice: '投稿が更新されました。'
     else
       render :edit

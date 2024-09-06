@@ -47,6 +47,10 @@
   <%= f.submit "投稿する", class: "btn btn-primary" %>
 <% end %>
 
+<% if @post.user == current_user %>
+  <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success mt-3' %>
+<% end %>
+
 <script>
   $(document).on('turbolinks:load', function() {
     let elem = document.querySelector('#rating_raty');
