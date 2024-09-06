@@ -5,6 +5,7 @@ class Public::PostsController < ApplicationController
 
   def new_play
     @post = Post.new
+    @comment = Comment.new
   end
 
   def new_facility
@@ -23,17 +24,17 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
+    
     if @post.save
       @post.tags = Tag.where(id: params[:post][:tag_ids])
-      
-      @rating = @post.ratings.build(rating_params)
-      @rating.user = current_user
-      @rating.save
-      
-      if params[:comment_content].present?
-        @comment = @post.comments.build(content: params[:comment_content])
-        @comment.user = current_user
-        @comment.save
+      if params[:comment].present? && params[:comment][:content].present?
+        @comment = @post.comments.build(content: params[:comment][:content], user: current_user)
+        if @comment.save
+          if params[:rating].present? && params[:rating][:score].present?
+            @rating = @comment.ratings.build(score: params[:rating][:score], user: current_user)
+            @rating.save
+          end
+        end
       end
       
       redirect_to @post, notice: '投稿が作成されました。'
@@ -68,8 +69,5 @@ class Public::PostsController < ApplicationController
     params.require(:post).permit(:title, :address, tag_ids: [])
   end
   
-  def rating_params
-    params.require(:rating).permit(:score)
-  end
   
 end

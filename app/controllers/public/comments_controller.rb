@@ -3,10 +3,10 @@ class Public::CommentsController < ApplicationController
     @post = Post.find(params[:post_id])
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
-    
+
     if @comment.save
       if params[:rating][:score].present?
-        @rating = @post.ratings.build(score: params[:rating][:score])
+        @rating = @comment.ratings.build(score: params[:rating][:score])
         @rating.user = current_user
         @rating.save
       end
