@@ -1,6 +1,23 @@
-<h2>新規投稿</h2>
-
-<div class="d-flex justify-content-center">
-  <%= link_to '遊び場', new_play_posts_path, class: 'btn btn-primary mr-3' %>
-  <%= link_to '設備', new_facility_posts_path, class: 'btn btn-secondary' %>
+<div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+  <h2>どちらの投稿ですか？</h2>
+  <div class="d-flex justify-content-center mt-5">
+    <%= link_to '遊び場', new_play_posts_path, class: 'btn btn-primary mr-3',
+      style:'
+        width: 300px;
+        height: 300px;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ' %>
+    <%= link_to '設備', new_facility_posts_path, class: 'btn btn-secondary',
+      style:'
+        width: 300px;
+        height: 300px;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ' %>
+  </div>
 </div>

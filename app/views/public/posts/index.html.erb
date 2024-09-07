@@ -15,7 +15,9 @@
       <tr>
         <td>
           <% if post.image.attached? %>
-            <%= image_tag post.image.variant(resize_to_limit: [100, 100]) %>
+            <%= link_to post_path(post) do %>
+              <%= image_tag post.image.variant(resize_to_limit: [100, 100]) %>
+            <% end %>
           <% else %>
             画像なし
           <% end %>
