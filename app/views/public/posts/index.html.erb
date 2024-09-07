@@ -2,6 +2,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th>画像</th>
       <th>タイトル</th>
       <th>評価</th>
       <th>住所</th>
@@ -12,6 +13,13 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
+        <td>
+          <% if post.image.attached? %>
+            <%= image_tag post.image.variant(resize_to_limit: [100, 100]) %>
+          <% else %>
+            画像なし
+          <% end %>
+        </td>
         <td><%= link_to post.title, post_path(post) %></td>
         <td>
           <% if post.comments.any? %>
