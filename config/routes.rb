@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   root to: 'public/homes#top'
   get '/main', to: 'public/homes#main', as: 'main_page'
   get '/mypage', to: 'public/users#mypage', as: 'mypage'
-  resources :users, only: [:edit, :show, :update, :destroy], controller: 'public/users'
+  resources :users, only: [:edit, :show, :update, :destroy], controller: 'public/users' do
+    get 'posts', to: 'public/users#posts', as: 'posts'
+  end
   resources :posts, controller: 'public/posts' do
     collection do
       get 'new_play', to: 'public/posts#new_play'

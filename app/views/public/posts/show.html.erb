@@ -25,7 +25,7 @@
   <ul class="list-group">
     <% @post.comments.each do |comment| %>
       <li class="list-group-item">
-        <strong><%= comment.user.name %>:</strong>
+        <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
         <p><%= comment.content %></p>
         <small>評価: <%= comment.ratings.average(:score).to_f.round(1) %> / 5</small>
         <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
