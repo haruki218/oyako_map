@@ -1,18 +1,20 @@
-<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+<div class="container-fluid d-flex align-items-center justify-content-center"
+  style="min-height: 90vh; background-image: url('<%= asset_path("top-image.jpg") %>'); background-size: cover;">">
   <div class="row w-100">
-    <div class='mx-auto mb-5 col-11 col-md-10 col-lg-8 text-center'>
+    <div class='mx-auto mb-5 col-11 col-md-10 col-lg-8 text-center text-light'
+      style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
       <h1>おやこマップ</h1>
       <p>おやこでのお出かけをサポートします</p>
       <p>お出かけ場所の情報をみなさんで共有しましょう</p>
       <div class="btn-wrapper col-6 mx-auto">
         <div class="row pt-3">
-          <%= link_to 'ゲストログイン', users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in w-100", method: :post %>
+          <%= link_to 'ゲストログイン', users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in mx-auto", style: "width: 50%;", method: :post %>
         </div>
         <div class="row">
-          <%= link_to 'ログイン', new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in w-100" %>
+          <%= link_to 'ログイン', new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in mx-auto", style: "width: 50%;" %>
         </div>
         <div class="row">
-          <%= link_to '新規登録', new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up w-100" %>
+          <%= link_to '新規登録', new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up mx-auto", style: "width: 50%;" %>
         </div>
       </div>
     </div>

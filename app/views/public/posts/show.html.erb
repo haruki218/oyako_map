@@ -1,2 +1,75 @@
-<h1>Public::Posts#show</h1>
-<p>Find me in app/views/public/posts/show.html.erb</p>
+<h1><%= @post.title %></h1>
+
+<p><strong>住所:</strong> <%= @post.address %></p>
+<p><strong>評価:</strong>
+  <% if @post.comments.any? %>
+    平均評価: <%= @post.average_rating.round(1) %> / 5
+  <% else %>
+    評価なし
+  <% end %>
+</p>
+<p><strong>画像:</strong></p>
+<% if @post.image.attached? %>
+  <%= image_tag @post.image.variant(resize_to_limit: [300, 300]) %>
+<% else %>
+  <p>画像はありません</p>
+<% end %>
+<p><strong>タグ:</strong>
+  <% @post.tags.each do |tag| %>
+    <span class="badge badge-info"><%= tag.name %></span>
+  <% end %>
+</p>
+
+<h3>コメント一覧</h3>
+<% if @post.comments.any? %>
+  <ul class="list-group">
+    <% @post.comments.each do |comment| %>
+      <li class="list-group-item">
+        <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
+        <p><%= comment.content %></p>
+        <small>評価: <%= comment.ratings.average(:score).to_f.round(1) %> / 5</small>
+        <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>コメントはまだありません。</p>
+<% end %>
+
+<h3>レビューする</h3>
+<%= form_with(model: [@post, @comment], local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :content, "コメント" %>
+    <%= f.text_area :content, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group" id="star">
+    <%= f.label :score, "評価" %>
+    <%= hidden_field_tag 'rating[score]', nil, id: :rating_score, class: 'form-control' %>
+    <div id="rating_raty"></div>
+  </div>
+
+  <%= f.submit "投稿する", class: "btn btn-primary" %>
+<% end %>
+
+<% if @post.user == current_user %>
+  <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success mt-3' %>
+<% end %>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    let elem = document.querySelector('#rating_raty');
+    if (elem == null) return;
+
+    elem.innerHTML = ""
+    let opt = {  
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      scoreName: 'rating[score]',  // Ratingのスコアを送信
+      click: function(score, evt) {
+        $('#rating_score').val(score);  // スコアをhidden_fieldに設定
+      }
+    };
+    raty(elem, opt);  // Ratyを初期化
+  });
+</script>

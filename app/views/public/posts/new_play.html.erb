@@ -1,0 +1,64 @@
+<div class="container d-flex flex-column align-items-center ">
+  <div class='mx-auto mb-5 col-11 col-md-10 col-lg-8'>
+    <h2>遊び場の投稿</h2>
+    <%= form_with(model: @post, url: posts_path, local: true) do |f| %>
+      <div class="form-group">
+        <%= f.label :title, "施設名" %>
+        <%= f.text_field :title, class: "form-control", required: true %>
+      </div>
+    
+      <div class="form-group" id="star">
+        <%= f.label :score, "評価" %>
+        <%= hidden_field_tag 'rating[score]', nil, id: :rating_score, class: 'form-control' %>
+        <div id="rating_raty"></div>
+      </div>
+    
+      <div class="form-group">
+        <%= f.label :image, "画像" %>
+        <%= f.file_field :image %>
+      </div>
+    
+      <div class="form-group">
+        <%= f.label :content, "コメント" %>
+        <%= text_area_tag 'comment[content]', nil, class: "form-control", required: true %>
+      </div>
+    
+      <div class="form-group">
+          <%= f.label :address, "住所" %>
+          <%= f.text_field :address, class: "form-control", required: true %>
+      </div>
+      
+      <div class="form-group">
+        <label>オプション</label><br>
+        <div class="d-flex flex-wrap">
+          <% Tag.all.each do |tag| %>
+            <div class="form-check mr-3 mb-2">
+              <%= check_box_tag "post[tag_ids][]", tag.id, @post.tag_ids.include?(tag.id), id: "tag_#{tag.id}" %>
+              <%= label_tag "tag_#{tag.id}", tag.name %><br>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <%= f.submit "投稿する", class: "btn btn-primary mb-3" %>
+    <% end %>
+    <%= link_to "戻る", new_post_path, class: "pb-5" %>
+  </div>
+</div>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    let elem = document.querySelector('#rating_raty');
+    if (elem == null) return;
+
+    elem.innerHTML = ""
+    let opt = {  
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      scoreName: 'rating[score]',  // Ratingのスコアを送信
+      click: function(score, evt) {
+        $('#rating_score').val(score);  // 選択したスコアをhidden_fieldにセット
+      }
+    };
+    raty(elem, opt);  // Ratyを初期化
+  });
+</script>
