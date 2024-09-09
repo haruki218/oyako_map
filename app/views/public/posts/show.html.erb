@@ -1,14 +1,5 @@
 <h1><%= @post.title %></h1>
 
-<p><strong>住所:</strong> <%= @post.address %></p>
-<p><strong>評価:</strong>
-  <% if @post.comments.any? %>
-    平均評価: <%= @post.average_rating.round(1) %> / 5
-  <% else %>
-    評価なし
-  <% end %>
-</p>
-<p><strong>画像:</strong></p>
 <% if @post.image.attached? %>
   <%= image_tag @post.image.variant(resize_to_limit: [300, 300]) %>
 <% else %>
@@ -17,6 +8,14 @@
 <p><strong>タグ:</strong>
   <% @post.tags.each do |tag| %>
     <span class="badge badge-info"><%= tag.name %></span>
+  <% end %>
+</p>
+<p><strong>住所:</strong> <%= @post.address %></p>
+<p><strong>評価:</strong>
+  <% if @post.comments.any? %>
+    平均評価: <%= @post.average_rating.round(1) %> / 5
+  <% else %>
+    評価なし
   <% end %>
 </p>
 
@@ -36,7 +35,6 @@
   <p>コメントはまだありません。</p>
 <% end %>
 
-<h3>レビューする</h3>
 <%= form_with(model: [@post, @comment], local: true) do |f| %>
   <div class="form-group">
     <%= f.label :content, "コメント" %>

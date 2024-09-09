@@ -146,7 +146,7 @@ function addMarkersToMap(posts) {
                 <div class="info-window">
                     <h3>${title}</h3>
                     <p>評価: ${average_rating ? average_rating.toFixed(1) : 'なし'} / 5</p>
-                    <p>オプション: ${tagHtml}</p>
+                    <p>タグ: ${tagHtml}</p>
                     <a href="/posts/${post.id}" class="btn btn-primary mt-2">詳細を見る</a>
                 </div>
             `;
