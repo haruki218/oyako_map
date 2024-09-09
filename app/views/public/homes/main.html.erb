@@ -1,2 +1,10 @@
-<h1>Public::Homes#main</h1>
-<p>Find me in app/views/public/homes/main.html.erb</p>
+  <div class="container mt-4">
+    <h1 class="mb-4">都道府県を選んでください</h1>
+    <div class="row">
+      <% @prefectures.each do |prefecture| %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+          <%= link_to prefecture, map_path(prefecture), class: "btn btn-info btn-block" %>
+        </div>
+      <% end %>
+    </div>
+  </div>

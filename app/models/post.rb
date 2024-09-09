@@ -7,6 +7,8 @@ class Post < ApplicationRecord
   has_one_attached :image
   
   validates :address, presence: true
+  geocoded_by :address
+  after_validation :geocode
   
   # 投稿に紐づくコメントの評価の平均を計算
   def average_rating

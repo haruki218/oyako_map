@@ -1,2 +1,4 @@
-<h1>Public::Maps#show</h1>
-<p>Find me in app/views/public/maps/show.html.erb</p>
+<h1><%= @prefecture %>の地図</h1>
+<div id="map" style="height: 500px; width: 100%;"></div>
+<div id="prefecture-name" style="display: none;"><%= @prefecture %></div>
+<%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>
