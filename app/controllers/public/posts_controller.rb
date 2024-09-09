@@ -24,10 +24,10 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    if params[:facility_type] == 'nursing_room'
-      @post.title = '授乳室'
-    elsif params[:facility_type] == 'diaper_changing_station'
-      @post.title = 'おむつ替え'
+    # 設備の投稿時にfacility_typeを設定
+    if params[:facility_type].present?
+      @post.facility_type = params[:facility_type]
+      @post.title = facility_title(params[:facility_type])
     end
     if @post.save
       @post.tags = Tag.where(id: params[:post][:tag_ids])
@@ -53,10 +53,10 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    if params[:facility_type] == 'nursing_room'
-      @post.title = '授乳室'
-    elsif params[:facility_type] == 'diaper_changing_station'
-      @post.title = 'おむつ替え'
+    # 設備の更新時にfacility_typeを設定
+    if params[:facility_type].present?
+      @post.facility_type = params[:facility_type]
+      @post.title = facility_title(params[:facility_type])
     end
     if @post.update(post_params)
       redirect_to @post, notice: '投稿が更新されました。'
@@ -74,9 +74,19 @@ class Public::PostsController < ApplicationController
   
   private
   
-  def post_params
-    params.require(:post).permit(:title, :address, :image, tag_ids: [])
+    # 設備のタイトルを設定するメソッド
+  def facility_title(facility_type)
+    case facility_type
+    when 'nursing_room'
+      '授乳室'
+    when 'diaper_changing_station'
+      'おむつ替え'
+    else
+      ''
+    end
   end
   
-  
+  def post_params
+    params.require(:post).permit(:title, :address, :image, :facility_type, tag_ids: [])
+  end
 end
