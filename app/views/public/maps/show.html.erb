@@ -1,2 +1,19 @@
-<h1>Public::Maps#show</h1>
-<p>Find me in app/views/public/maps/show.html.erb</p>
+<div class="container">
+    <div class="row mt-3">
+        <h1><%= @prefecture %>のマップ</h1>
+    </div>
+    <div class="row mt-3">
+        <div id="map" style="height: 500px; width: 100%;"></div>
+        <div id="prefecture-name" style="display: none;"><%= @prefecture %></div>
+    </div>
+    <div class="row mt-3">
+        <img src="/assets/play_icon.png" alt="遊び場アイコン" style="width: 24px; height: 24px; margin-right: 10px;">
+        <span class="mr-4">遊び場</span>
+        <img src="/assets/nursing_room_icon.png" alt="授乳室アイコン" style="width: 24px; height: 24px; margin-right: 10px;">
+        <span class="mr-4">授乳室</span>
+        <img src="/assets/diaper_changing_icon.png" alt="おむつ替えアイコン" style="width: 24px; height: 24px; margin-right: 10px;">
+        <span>おむつ替えスペース</span>
+    </div>
+</div>
+
+<%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>

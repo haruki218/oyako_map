@@ -17,17 +17,27 @@
         <%= f.label :image, "画像" %>
         <%= f.file_field :image %>
       </div>
+
+      <div class="form-group">
+          <%= f.label :address, "郵便番号" %>
+          <%= f.text_field :postal_code, class: "form-control", id: "postal_code", required: true %>
+      </div>
+
+      <div class="form-group">
+          <%= f.label :address, "住所" %>
+          <%= f.text_field :address, class: "form-control", id: "post_address", required: true %>
+      </div>
+      <!-- 緯度と経度の入力フィールド -->
+      <%= f.hidden_field :latitude, id: "latitude" %>
+      <%= f.hidden_field :longitude, id: "longitude" %>
+      <!-- Googleマップを表示 -->
+      <div id="map" style="height: 300px; width: 100%;"></div>
     
       <div class="form-group">
         <%= f.label :content, "コメント" %>
         <%= text_area_tag 'comment[content]', nil, class: "form-control", required: true %>
       </div>
-    
-      <div class="form-group">
-          <%= f.label :address, "住所" %>
-          <%= f.text_field :address, class: "form-control", required: true %>
-      </div>
-      
+
       <div class="form-group">
         <label>オプション</label><br>
         <div class="d-flex flex-wrap">
@@ -62,3 +72,4 @@
     raty(elem, opt);  // Ratyを初期化
   });
 </script>
+<%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>
