@@ -10,6 +10,7 @@
     <span class="badge badge-info"><%= tag.name %></span>
   <% end %>
 </p>
+<p><strong>〒</strong> <%= @post.postal_code %></p>
 <p><strong>住所:</strong> <%= @post.address %></p>
 <p><strong>評価:</strong>
   <% if @post.comments.any? %>
