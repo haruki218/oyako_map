@@ -119,11 +119,11 @@ function addMarkersToMap(posts) {
             // アイコンの選択
             let iconUrl;
             if (facility_type === 'nursing_room') {
-                iconUrl = '/assets/nursing_room_icon.png'; // 授乳室用アイコン
+                iconUrl = '/nursing_room_icon.png'; // 授乳室用アイコン
             } else if (facility_type === 'diaper_changing_station') {
-                iconUrl = '/assets/diaper_changing_icon.png'; // おむつ替え用アイコン
+                iconUrl = '/diaper_changing_icon.png'; // おむつ替え用アイコン
             } else {
-                iconUrl = '/assets/play_icon.png';  // 遊び場用アイコン
+                iconUrl = '/play_icon.png';  // 遊び場用アイコン
             }
 
             const marker = new google.maps.Marker({
