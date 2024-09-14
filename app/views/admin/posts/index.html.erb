@@ -1,2 +1,43 @@
-<h1>Admin::Posts#index</h1>
-<p>Find me in app/views/admin/posts/index.html.erb</p>
+<div class="container">
+    <h1>投稿一覧</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 10%;">ユーザー</th>
+          <th style="width: 15%;">タイトル</th>
+          <th style="width: 10%;">評価</th>
+          <th style="width: 20%;">住所</th>
+          <th style="width: 20%;">コメント</th>
+          <th style="width: 25%;">タグ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @posts.each do |post| %>
+          <tr>
+            <td><%= link_to post.user.name, admin_users_path(post) %></td>
+            <td><%= link_to post.title, post_path(post) %></td>
+            <td>
+              <% if post.comments.any? %>
+                <%= number_with_precision(post.average_rating, precision: 1) %> / 5
+              <% else %>
+                評価なし
+              <% end %>
+            </td>
+            <td><%= post.address %></td>
+            <td>
+              <% if post.comments.any? %>
+                <%= post.comments.last.content.truncate(30) %>
+              <% else %>
+                コメントなし
+              <% end %>
+            </td>
+            <td>
+              <% post.tags.each do |tag| %>
+                <span class="badge badge-info"><%= tag.name %></span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+</div>
