@@ -1,4 +1,6 @@
 class Public::PostsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_not_guest_user, only: [:new, :new_play, :new_facility, :create, :edit, :update, :destroy]
   
   def new
   end
@@ -41,7 +43,7 @@ class Public::PostsController < ApplicationController
         end
       end
       
-      redirect_to @post, notice: '投稿が作成されました。'
+      redirect_to @post, notice: '投稿が作成されました'
     else
       render :new_play
     end
@@ -59,7 +61,7 @@ class Public::PostsController < ApplicationController
       @post.title = facility_title(params[:facility_type])
     end
     if @post.update(post_params)
-      redirect_to @post, notice: '投稿が更新されました。'
+      redirect_to @post, notice: '投稿が更新されました'
     else
       render :edit
     end
@@ -83,6 +85,12 @@ class Public::PostsController < ApplicationController
       'おむつ替え'
     else
       ''
+    end
+  end
+  
+  def ensure_not_guest_user
+    if current_user.guest_user?
+      redirect_to posts_path, alert: '投稿にはユーザー登録が必要です'
     end
   end
   

@@ -19,7 +19,7 @@ class Public::UsersController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to mypage_path, notice: "ユーザー情報が更新されました。"
+      redirect_to mypage_path, notice: "ユーザー情報が更新されました"
     else
       render :edit
     end
@@ -27,7 +27,7 @@ class Public::UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to root_path, notice: "退会が完了しました。"
+    redirect_to root_path, notice: "退会が完了しました"
   end
   
   private
@@ -35,7 +35,7 @@ class Public::UsersController < ApplicationController
   def ensure_guest_user
     @user = current_user
     if @user.guest_user?
-      redirect_to main_page_path, alert: "ゲストユーザーはプロフィール画面へ遷移できません。"
+      redirect_to main_page_path, alert: "ゲストユーザーはプロフィール画面へ遷移できません"
     end
   end
   

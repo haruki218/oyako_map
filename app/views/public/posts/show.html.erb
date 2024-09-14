@@ -29,6 +29,9 @@
         <p><%= comment.content %></p>
         <small>評価: <%= comment.ratings.average(:score).to_f.round(1) %> / 5</small>
         <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+        <% if comment.user == current_user %>
+          <%= link_to '削除', post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+        <% end %>
       </li>
     <% end %>
   </ul>
