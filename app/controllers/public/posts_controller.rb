@@ -55,15 +55,16 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    # 設備の更新時にfacility_typeを設定
-    if params[:facility_type].present?
-      @post.facility_type = params[:facility_type]
-      @post.title = facility_title(params[:facility_type])
-    end
-    if @post.update(post_params)
-      redirect_to @post, notice: '投稿が更新されました'
-    else
+    # タグが１つも選択されていない場合
+    if params[:post][:tag_ids].blank?
+      flash[:alert] = 'タグをすべて削除することはできません'
       render :edit
+    else
+      if @post.update(post_params)
+        redirect_to @post, notice: '投稿が更新されました'
+      else
+        render :edit
+      end
     end
   end
 
