@@ -3,6 +3,8 @@ class Public::UsersController < ApplicationController
   before_action :ensure_guest_user, only: [:mypage, :edit, :posts, :update, :destroy]
   
   def mypage
+    @post = current_user.posts.last
+    @comment = current_user.comments.last
   end
 
   def edit

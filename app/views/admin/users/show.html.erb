@@ -1,2 +1,81 @@
-<h1>Admin::Users#show</h1>
-<p>Find me in app/views/admin/users/show.html.erb</p>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <h2>ユーザー詳細</h2>
+      <div class="card mb-4">
+        <div class="card-header">
+          <h4>ユーザー情報</h4>
+        </div>
+        <div class="card-body">
+          <p><strong>ニックネーム:</strong> <%= @user.name %></p>
+          <p><strong>メールアドレス:</strong> <%= @user.email %></p>
+          <%= link_to '退会',admin_user_path(@user), method: :delete, data: { confirm: '本当に退会を行いますか？' }, class: "btn btn-danger"%>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h3><%= @user.name %>さんの投稿履歴</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 15%;">投稿日</th>
+            <th style="width: 20%;">画像</th>
+            <th style="width: 20%;">タイトル</th>
+            <th style="width: 15%;">評価</th>
+            <th style="width: 30%;">住所</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @posts.each do |post| %>
+            <tr>
+              <td><%= post.created_at.strftime("%Y-%m-%d") %></td>
+              <td>
+                <% if post.image.attached? %>
+                  <%= link_to post_path(post) do %>
+                    <%= image_tag post.image.variant(resize_to_limit: [100, 100]) %>
+                  <% end %>
+                <% else %>
+                  画像なし
+                <% end %>
+              </td>
+              <td><%= link_to post.title, admin_post_path(post) %></td>
+              <td>
+                <% if post.comments.any? %>
+                  <%= number_with_precision(post.average_rating, precision: 1) %> / 5
+                <% else %>
+                  評価なし
+                <% end %>
+              </td>
+              <td><%= post.address.truncate(15) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="col-md-6">
+      <h3><%= @user.name %>さんのコメント履歴</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">投稿日</th>
+            <th style="width: 40%;">コメント内容</th>
+            <th style="width: 40%;">コメント対象</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.comments.each do |comment| %>
+            <tr>
+              <td><%= comment.created_at.strftime("%Y-%m-%d") %></td>
+              <td><%= comment.content.truncate(15) %></td>
+              <td><%= link_to comment.post.title, admin_post_path(comment.post) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
