@@ -15,7 +15,7 @@
         <% @posts.each do |post| %>
           <tr>
             <td><%= link_to post.user.name, admin_users_path(post) %></td>
-            <td><%= link_to post.title, post_path(post) %></td>
+            <td><%= link_to post.title, admin_post_path(post) %></td>
             <td>
               <% if post.comments.any? %>
                 <%= number_with_precision(post.average_rating, precision: 1) %> / 5
