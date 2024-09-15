@@ -1,6 +1,7 @@
 class Public::PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_not_guest_user, only: [:new, :new_play, :new_facility, :create, :edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   
   def new
   end
@@ -92,6 +93,13 @@ class Public::PostsController < ApplicationController
   def ensure_not_guest_user
     if current_user.guest_user?
       redirect_to posts_path, alert: '投稿にはユーザー登録が必要です'
+    end
+  end
+  
+  def ensure_correct_user
+    @post = Post.find(params[:id])
+    unless @post.user == current_user
+      redirect_to post_path(@post), alert: '他のユーザーの投稿は編集できません'
     end
   end
   
