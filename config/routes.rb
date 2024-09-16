@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:destroy]
     end
     resources :tags, only: [:index, :create, :destroy]
+    get '/search', to: 'search#index', as: 'search'
   end
 
   # パブリック側

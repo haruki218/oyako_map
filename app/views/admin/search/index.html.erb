@@ -1,5 +1,4 @@
 <div class="container mt-3">
-
   <% if @model == 'user' %>
     <h2>ユーザー検索結果</h2>
     <% if @records.any? %>
@@ -7,20 +6,31 @@
         <thead>
           <tr>
             <th>ユーザー名</th>
+            <th>登録日</th>
             <th>最近の投稿</th>
+            <th>最近のコメント</th>
           </tr>
         </thead>
         <tbody>
           <% @records.each do |user| %>
             <% unless user.guest_user? %> <!--ゲストユーザーは表示しない-->
               <tr>
-                <td><%= link_to user.name, user_path(user) %></td>
+                <td><%= link_to user.name, admin_user_path(user) %></td>
+                <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
                 <td>
                   <% if user.posts.any? %>
-                    <%= link_to user.posts.last.title, post_path(user.posts.last) %>
+                    <%= link_to user.posts.last.title, admin_post_path(user.posts.last) %>
                     <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
                   <% else %>
                     まだ投稿がありません
+                  <% end %>
+                </td>
+                <td>
+                  <% if user.comments.any? %>
+                    <%= user.comments.last.content.truncate(30) %>
+                    <small>(<%= user.comments.last.created_at.strftime("%Y-%m-%d") %>)</small>
+                  <% else %>
+                    まだコメントがありません
                   <% end %>
                 </td>
               </tr>
@@ -38,7 +48,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 10%;">画像</th>
+            <th style="width: 10%;">ユーザー</th>
             <th style="width: 15%;">タイトル</th>
             <th style="width: 10%;">評価</th>
             <th style="width: 20%;">住所</th>
@@ -49,16 +59,8 @@
         <tbody>
           <% @records.each do |post| %>
             <tr>
-              <td>
-                <% if post.image.attached? %>
-                  <%= link_to post_path(post) do %>
-                    <%= image_tag post.image.variant(resize_to_limit: [200, 200]) %>
-                  <% end %>
-                <% else %>
-                  画像なし
-                <% end %>
-              </td>
-              <td><%= link_to post.title, post_path(post) %></td>
+              <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
+              <td><%= link_to post.title, admin_post_path(post) %></td>
               <td>
                 <% if post.comments.any? %>
                   <%= number_with_precision(post.average_rating, precision: 1) %> / 5
