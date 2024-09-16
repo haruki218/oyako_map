@@ -1,6 +1,9 @@
 class Public::CommentsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_post, only: [:create, :destroy]
+  before_action :ensure_not_guest_user, only: [:create, :destroy]
+  
   def create
-    @post = Post.find(params[:post_id])
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
@@ -11,19 +14,29 @@ class Public::CommentsController < ApplicationController
         @rating.save
       end
 
-      redirect_to @post, notice: 'コメントが追加されました。'
+      redirect_to @post, notice: 'コメントが追加されました'
     else
-      redirect_to @post, alert: 'コメントの追加に失敗しました。'
+      redirect_to @post, alert: 'コメントの追加に失敗しました'
     end
   end
 
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy
-    redirect_to post_path(params[:post_id]), notice: 'コメントが削除されました。'
+    redirect_to post_path(@post), notice: 'コメントが削除されました'
   end
 
   private
+
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
+
+  def ensure_not_guest_user
+    if current_user.guest_user?
+      redirect_to @post, alert: 'コメントにはユーザー登録が必要です'
+    end
+  end
 
   def comment_params
     params.require(:comment).permit(:content)

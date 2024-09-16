@@ -1,2 +1,41 @@
-<h1>Admin::Posts#show</h1>
-<p>Find me in app/views/admin/posts/show.html.erb</p>
+<div class="container mt-3">
+  <h1><%= @post.title %></h1>
+  <% if @post.image.attached? %>
+    <%= image_tag @post.image.variant(resize_to_limit: [300, 300]) %>
+  <% else %>
+    <p>画像はありません</p>
+  <% end %>
+  <p><strong>タグ:</strong>
+    <% @post.tags.each do |tag| %>
+      <span class="badge badge-info"><%= tag.name %></span>
+    <% end %>
+  </p>
+  <p><strong>〒</strong> <%= @post.postal_code %></p>
+  <p><strong>住所:</strong> <%= @post.address %></p>
+  <p><strong>評価:</strong>
+    <% if @post.comments.any? %>
+      平均評価: <strong><%= @post.average_rating.round(1) %></strong> / 5
+    <% else %>
+      評価なし
+    <% end %>
+  </p>
+  
+  <h3>コメント一覧</h3>
+  <% if @post.comments.any? %>
+    <ul class="list-group">
+      <% @post.comments.each do |comment| %>
+        <li class="list-group-item">
+          <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
+          <p><%= comment.content %></p>
+          <small>評価: <strong><%= comment.ratings.average(:score).to_f.round(1) %></strong> / 5</small>
+          <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+            <%= link_to '削除', admin_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>コメントはまだありません。</p>
+  <% end %>
+  
+  <%= link_to '編集', edit_admin_post_path(@post), class: 'btn btn-success my-3' %>
+</div>

@@ -1,49 +1,51 @@
-<h1>投稿一覧</h1>
-<table class="table">
-  <thead>
-    <tr>
-      <th>画像</th>
-      <th>タイトル</th>
-      <th>評価</th>
-      <th>住所</th>
-      <th>コメント</th>
-      <th>タグ</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @posts.each do |post| %>
+<div class="container mt-3">
+  <h1>みんなの投稿</h1>
+  <table class="table">
+    <thead>
       <tr>
-        <td>
-          <% if post.image.attached? %>
-            <%= link_to post_path(post) do %>
-              <%= image_tag post.image.variant(resize_to_limit: [100, 100]) %>
-            <% end %>
-          <% else %>
-            画像なし
-          <% end %>
-        </td>
-        <td><%= link_to post.title, post_path(post) %></td>
-        <td>
-          <% if post.comments.any? %>
-            <%= number_with_precision(post.average_rating, precision: 1) %> / 5
-          <% else %>
-            評価なし
-          <% end %>
-        </td>
-        <td><%= post.address %></td>
-        <td>
-          <% if post.comments.any? %>
-            <%= post.comments.last.content.truncate(30) %>
-          <% else %>
-            コメントなし
-          <% end %>
-        </td>
-        <td>
-          <% post.tags.each do |tag| %>
-            <span class="badge badge-info"><%= tag.name %></span>
-          <% end %>
-        </td>
+        <th style="width: 10%;">画像</th>
+        <th style="width: 15%;">タイトル</th>
+        <th style="width: 10%;">評価</th>
+        <th style="width: 20%;">住所</th>
+        <th style="width: 20%;">コメント</th>
+        <th style="width: 25%;">タグ</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td>
+            <% if post.image.attached? %>
+              <%= link_to post_path(post) do %>
+                <%= image_tag post.image.variant(resize_to_limit: [200, 200]) %>
+              <% end %>
+            <% else %>
+              画像なし
+            <% end %>
+          </td>
+          <td><%= link_to post.title, post_path(post) %></td>
+          <td>
+            <% if post.comments.any? %>
+              <%= number_with_precision(post.average_rating, precision: 1) %> / 5
+            <% else %>
+              評価なし
+            <% end %>
+          </td>
+          <td><%= post.address %></td>
+          <td>
+            <% if post.comments.any? %>
+              <%= post.comments.last.content.truncate(30) %>
+            <% else %>
+              コメントなし
+            <% end %>
+          </td>
+          <td>
+            <% post.tags.each do |tag| %>
+              <span class="badge badge-info"><%= tag.name %></span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

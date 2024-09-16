@@ -1,4 +1,7 @@
 class Public::PostsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_not_guest_user, only: [:new, :new_play, :new_facility, :create, :edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   
   def new
   end
@@ -13,7 +16,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc) # 新しい順に並べる
   end
 
   def show
@@ -41,7 +44,7 @@ class Public::PostsController < ApplicationController
         end
       end
       
-      redirect_to @post, notice: '投稿が作成されました。'
+      redirect_to @post, notice: '投稿が作成されました'
     else
       render :new_play
     end
@@ -53,15 +56,16 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    # 設備の更新時にfacility_typeを設定
-    if params[:facility_type].present?
-      @post.facility_type = params[:facility_type]
-      @post.title = facility_title(params[:facility_type])
-    end
-    if @post.update(post_params)
-      redirect_to @post, notice: '投稿が更新されました。'
-    else
+    # タグが１つも選択されていない場合
+    if params[:post][:tag_ids].blank?
+      flash[:alert] = 'タグをすべて削除することはできません'
       render :edit
+    else
+      if @post.update(post_params)
+        redirect_to @post, notice: '投稿が更新されました'
+      else
+        render :edit
+      end
     end
   end
 
@@ -83,6 +87,19 @@ class Public::PostsController < ApplicationController
       'おむつ替え'
     else
       ''
+    end
+  end
+  
+  def ensure_not_guest_user
+    if current_user.guest_user?
+      redirect_to posts_path, alert: '投稿にはユーザー登録が必要です'
+    end
+  end
+  
+  def ensure_correct_user
+    @post = Post.find(params[:id])
+    unless @post.user == current_user
+      redirect_to post_path(@post), alert: '他のユーザーの投稿は編集できません'
     end
   end
   
