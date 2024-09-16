@@ -17,10 +17,19 @@
     <header class="shadow-sm">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-          <% if user_signed_in? %>
-            <%= link_to "おやこマップ", main_page_path, class: 'nav-link text-dark' %>
-          <% else %>
+          <% if admin_signed_in? %>
             <%= link_to "おやこマップ", root_path, class: 'nav-link text-dark' %>
+            <span class="ml-3">管理者権限でログインしています</span>
+          <% elsif user_signed_in? %>
+            <% if current_user.guest_user? %>
+              <%= link_to "おやこマップ", main_page_path, class: 'nav-link text-dark' %>
+              <span class="ml-3">ようこそ、ゲストさん</span>
+            <% else %>
+              <%= link_to "おやこマップ", main_page_path, class: 'nav-link text-dark' %>
+              <span class="ml-3">ようこそ、<%= current_user.name %>さん</span>
+            <% end %>
+          <% else %>
+            <%=link_to "おやこマップ", root_path, class: 'nav-link text-dark' %>
           <% end %>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
