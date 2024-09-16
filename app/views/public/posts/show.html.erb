@@ -20,6 +20,7 @@
       評価なし
     <% end %>
   </p>
+  <p><small>投稿者: <%= link_to @post.user.name, user_path(@post.user) %></small></p>
   
   <h3>コメント一覧</h3>
   <% if @post.comments.any? %>
