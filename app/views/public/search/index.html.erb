@@ -1,2 +1,91 @@
-<h1>Public::Search#index</h1>
-<p>Find me in app/views/public/search/index.html.erb</p>
+<div class="container mt-3">
+  <h1>検索結果</h1>
+
+  <% if @model == 'user' %>
+    <h2>ユーザー検索結果</h2>
+    <% if @records.any? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ユーザー名</th>
+            <th>最近の投稿</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @records.each do |user| %>
+            <% unless user.guest_user? %> <!--ゲストユーザーは表示しない-->
+              <tr>
+                <td><%= link_to user.name, user_path(user) %></td>
+                <td>
+                  <% if user.posts.any? %>
+                    <%= link_to user.posts.last.title, post_path(user.posts.last) %>
+                    <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
+                  <% else %>
+                    まだ投稿がありません
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>該当するユーザーが見つかりませんでした</p>
+    <% end %>
+
+  <% elsif @model == 'post' %>
+    <h2>投稿検索結果</h2>
+    <% if @records.any? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 10%;">画像</th>
+            <th style="width: 15%;">タイトル</th>
+            <th style="width: 10%;">評価</th>
+            <th style="width: 20%;">住所</th>
+            <th style="width: 20%;">コメント</th>
+            <th style="width: 25%;">タグ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @records.each do |post| %>
+            <tr>
+              <td>
+                <% if post.image.attached? %>
+                  <%= link_to post_path(post) do %>
+                    <%= image_tag post.image.variant(resize_to_limit: [200, 200]) %>
+                  <% end %>
+                <% else %>
+                  画像なし
+                <% end %>
+              </td>
+              <td><%= link_to post.title, post_path(post) %></td>
+              <td>
+                <% if post.comments.any? %>
+                  <%= number_with_precision(post.average_rating, precision: 1) %> / 5
+                <% else %>
+                  評価なし
+                <% end %>
+              </td>
+              <td><%= post.address %></td>
+              <td>
+                <% if post.comments.any? %>
+                  <%= post.comments.last.content.truncate(30) %>
+                <% else %>
+                  コメントなし
+                <% end %>
+              </td>
+              <td>
+                <% post.tags.each do |tag| %>
+                  <span class="badge badge-info"><%= tag.name %></span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>該当する投稿が見つかりませんでした</p>
+    <% end %>
+  <% end %>
+</div>

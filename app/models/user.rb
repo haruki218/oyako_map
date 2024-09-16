@@ -22,4 +22,7 @@ class User < ApplicationRecord
     email == GUEST_USER_EMAIL
   end
   
+  def self.search_for(content)
+    User.where("name LIKE ?", "%#{content}%")
+  end
 end

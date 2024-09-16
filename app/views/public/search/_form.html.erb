@@ -1,0 +1,15 @@
+<% if user_signed_in? %>
+  <%= form_with url: search_path, method: :get, local: true do |f| %>
+    <div class="form-row align-items-center">
+      <div class="col">
+        <%= f.text_field :content, placeholder: "キーワードを入力", class: "form-control" %>
+      </div>
+      <div class="col-auto">
+        <%= f.select :model, options_for_select({"ユーザー" => "user", "投稿" => "post"}), class: "form-control" %>
+      </div>
+      <div class="col-auto">
+        <%= f.submit "検索", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

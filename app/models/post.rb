@@ -17,4 +17,7 @@ class Post < ApplicationRecord
     ratings.sum.to_f / ratings.size
   end
 
+  def self.search_for(content)
+    Post.where("title LIKE ? OR address LIKE ?", "%#{content}%", "%#{content}%")
+  end
 end
