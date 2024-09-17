@@ -56,12 +56,22 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    # タグが１つも選択されていない場合
     if params[:post][:tag_ids].blank?
       flash[:alert] = 'タグをすべて削除することはできません'
       render :edit
     else
-      if @post.update(post_params)
+      # 画像の削除
+      if params[:post][:remove_image_ids].present?
+        params[:post][:remove_image_ids].each do |image_id|
+          image = @post.images.find_by(id: image_id)
+          image.purge if image
+        end
+      end
+      # 新しい画像の追加
+      if params[:post][:images].present?
+        @post.images.attach(params[:post][:images])
+      end
+      if @post.update(post_params_without_images)
         redirect_to @post, notice: '投稿が更新されました'
       else
         render :edit
@@ -105,5 +115,9 @@ class Public::PostsController < ApplicationController
   
   def post_params
     params.require(:post).permit(:title, :facility_type, :address, :latitude, :longitude, :postal_code, images: [], tag_ids: [])
+  end
+  
+  def post_params_without_images
+    params.require(:post).permit(:title, :facility_type, :address, :latitude, :longitude, :postal_code, tag_ids: [])
   end
 end

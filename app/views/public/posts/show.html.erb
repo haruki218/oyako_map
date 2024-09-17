@@ -2,14 +2,17 @@
   <h1><%= @post.title %></h1>
   
   <% if @post.images.attached? %>
-    <div class="image-gallery">
+    <div class="row d-flex justify-content-center">
       <% @post.images.each do |image| %>
-        <%= image_tag image.variant(resize_to_limit: [300, 300]) %>
+        <div class="col-md-4 mb-3 d-flex align-items-center justify-content-center bg-light p-3" style="height: 300px;">
+          <%= image_tag image.variant(resize_to_limit: [300, 300]) %>
+        </div>
       <% end %>
     </div>
   <% else %>
     <p>画像はありません</p>
   <% end %>
+  
   <p><strong>タグ:</strong>
     <% @post.tags.each do |tag| %>
       <span class="badge badge-info"><%= tag.name %></span>
