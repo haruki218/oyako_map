@@ -1,9 +1,9 @@
 <div class="container mt-3">
-  <h1>みんなの投稿</h1>
+  <h1><%= @tag.name %> の投稿一覧</h1>
   <table class="table">
     <thead>
       <tr>
-        <th style="width: 10%;">画像</th>
+        <th style="width: 10%;">ユーザー</th>
         <th style="width: 15%;">タイトル</th>
         <th style="width: 10%;">評価</th>
         <th style="width: 20%;">住所</th>
@@ -14,16 +14,8 @@
     <tbody>
       <% @posts.each do |post| %>
         <tr>
-          <td>
-            <% if post.image.attached? %>
-              <%= link_to post_path(post) do %>
-                <%= image_tag post.image.variant(resize_to_limit: [200, 200]) %>
-              <% end %>
-            <% else %>
-              画像なし
-            <% end %>
-          </td>
-          <td><%= link_to post.title, post_path(post) %></td>
+          <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
+          <td><%= link_to post.title, admin_post_path(post) %></td>
           <td>
             <% if post.comments.any? %>
               <%= number_with_precision(post.average_rating, precision: 1) %> / 5
@@ -41,7 +33,7 @@
           </td>
           <td>
           <% post.tags.each do |tag| %>
-            <%= link_to tag.name, tag_path(tag), class: "badge badge-info" %>
+            <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
           <% end %>
           </td>
         </tr>

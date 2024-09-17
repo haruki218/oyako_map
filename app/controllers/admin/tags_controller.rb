@@ -1,5 +1,11 @@
 class Admin::TagsController < ApplicationController
   before_action :authenticate_admin!
+  
+  def show
+    @tag = Tag.find(params[:id])
+    @posts = @tag.posts.order(created_at: :desc)
+  end
+
   def index
     @tags = Tag.all
     @tag = Tag.new
