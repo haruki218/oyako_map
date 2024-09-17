@@ -30,43 +30,63 @@ user3 = User.find_or_create_by!(
 end
 
 post1 = Post.find_or_create_by!(title: "渋谷キッズパーク") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/kids-park1.jpg"), filename: "kids-park1.jpg")
   post.address = "東京都渋谷区渋谷２丁目２１−１"
   post.postal_code = "150-8510"
   post.latitude = 35.659116
   post.longitude = 139.703727
   post.user = user1
   post.facility_type = ""
+  post.images.attach(
+    [
+      { io: File.open("#{Rails.root}/db/fixtures/kids-park1.jpg"), filename: "kids-park1.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/kids-park2.jpg"), filename: "kids-park2.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/kids-park3.jpg"), filename: "kids-park3.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/kids-park4.jpg"), filename: "kids-park4.jpg" }
+    ]
+  )
 end
 
 post2 = Post.find_or_create_by!(title: "新宿ボールパーク") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/ball-park1.jpg"), filename: "ball-park1.jpg")
   post.address = "東京都新宿区新宿３丁目１４−５"
   post.postal_code = "160-0022"
   post.latitude = 35.691470
   post.longitude = 139.704118
   post.user = user1
   post.facility_type = ""
+  post.images.attach(
+    [
+      { io: File.open("#{Rails.root}/db/fixtures/ball-park1.jpg"), filename: "ball-park1.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/ball-park2.jpg"), filename: "ball-park2.jpg" }
+    ]
+  )
 end
 
 post3 = Post.find_or_create_by!(title: "授乳室") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/nursing_room1.jpg"), filename: "nursing_room1.jpg")
   post.address = "東京都新宿区新宿３丁目１５−１７"
   post.postal_code = "160-0022"
   post.latitude = 35.692078
   post.longitude = 139.703728
   post.user = user2
   post.facility_type = "nursing_room"
+  post.images.attach(
+    [
+      { io: File.open("#{Rails.root}/db/fixtures/nursing_room1.jpg"), filename: "nursing_room1.jpg" }
+    ]
+  )
 end
 
 post4 = Post.find_or_create_by!(title: "おむつ替え") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/diaper_changing1.jpg"), filename: "diaper_changing1.jpg")
   post.address = "東京都新宿区新宿３丁目１７−７"
   post.postal_code = "160-0022"
   post.latitude = 35.690921
   post.longitude = 139.700258
   post.user = user1
   post.facility_type = "diaper_changing_station"
+  post.images.attach(
+    [
+      { io: File.open("#{Rails.root}/db/fixtures/diaper_changing1.jpg"), filename: "diaper_changing1.jpg" }
+    ]
+  )
 end
 
 tag1 = Tag.find_or_create_by!(name: "0〜1歳")

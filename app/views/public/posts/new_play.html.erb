@@ -1,7 +1,7 @@
 <div class="container d-flex flex-column align-items-center ">
   <div class='mx-auto mb-5 col-11 col-md-10 col-lg-8'>
     <h2>遊び場の投稿</h2>
-    <%= form_with(model: @post, url: posts_path, local: true) do |f| %>
+    <%= form_with(model: @post, url: posts_path, local: true, multipart: true) do |f| %>
       <div class="form-group">
         <%= f.label :title, "施設名" %>
         <%= f.text_field :title, class: "form-control", required: true %>
@@ -14,8 +14,11 @@
       </div>
     
       <div class="form-group">
-        <%= f.label :image, "画像" %>
-        <%= f.file_field :image %>
+        <%= f.label :images, "画像" %><br>
+        <%= f.file_field :images, multiple: true, accept: 'image/*' %>
+        <small class="form-text text-muted">
+          ファイル選択の際一度に複数の画像を選択できます。<br>ドラッグまたはCtrlかShiftキーを押しながら選択します
+        </small>
       </div>
 
       <div class="form-group">

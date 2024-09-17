@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
   has_many :comments, dependent: :destroy
 
-  has_one_attached :image
+  has_many_attached :images
   
   validates :address, presence: true
   geocoded_by :address

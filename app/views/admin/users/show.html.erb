@@ -33,9 +33,9 @@
             <tr>
               <td><%= post.created_at.strftime("%Y-%m-%d") %></td>
               <td>
-                <% if post.image.attached? %>
+                <% if post.images.attached? %>
                   <%= link_to post_path(post) do %>
-                    <%= image_tag post.image.variant(resize_to_limit: [100, 100]) %>
+                    <%= image_tag post.images.first.variant(resize_to_limit: [100, 100]) %>
                   <% end %>
                 <% else %>
                   画像なし

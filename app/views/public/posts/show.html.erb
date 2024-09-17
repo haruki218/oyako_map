@@ -1,8 +1,12 @@
 <div class="container mt-3">
   <h1><%= @post.title %></h1>
   
-  <% if @post.image.attached? %>
-    <%= image_tag @post.image.variant(resize_to_limit: [300, 300]) %>
+  <% if @post.images.attached? %>
+    <div class="image-gallery">
+      <% @post.images.each do |image| %>
+        <%= image_tag image.variant(resize_to_limit: [300, 300]) %>
+      <% end %>
+    </div>
   <% else %>
     <p>画像はありません</p>
   <% end %>
@@ -57,7 +61,7 @@
   <% end %>
   
   <% if @post.user == current_user %>
-    <%= link_to '編集', edit_post_path(@post), class: 'btn btn-success my-3' %>
+    <%= link_to '編集する', edit_post_path(@post), class: 'btn btn-success my-3' %>
   <% end %>
   
   <script>
