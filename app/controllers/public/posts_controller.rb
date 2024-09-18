@@ -16,7 +16,17 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.order(created_at: :desc) # 新しい順に並べる
+    if params[:facility_type].present?
+      if params[:facility_type] == ""
+        # すべて表示
+        @posts = Post.order(created_at: :desc)
+      else
+        # 選択した投稿種別で絞り込み
+        @posts = Post.where(facility_type: params[:facility_type]).order(created_at: :desc)
+      end
+    else
+      @posts = Post.order(created_at: :desc)
+    end
   end
 
   def show
@@ -31,7 +41,11 @@ class Public::PostsController < ApplicationController
     if params[:facility_type].present?
       @post.facility_type = params[:facility_type]
       @post.title = facility_title(params[:facility_type])
+    # 遊び場の投稿時にfacility_typeをplayに設定
+    elsif @post.facility_type.blank?
+      @post.facility_type = 'play'
     end
+    
     if @post.save
       @post.tags = Tag.where(id: params[:post][:tag_ids])
       if params[:comment].present? && params[:comment][:content].present?

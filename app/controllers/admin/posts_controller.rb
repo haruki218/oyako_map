@@ -2,7 +2,17 @@ class Admin::PostsController < ApplicationController
   before_action :authenticate_admin!
   
   def index
-    @posts = Post.order(created_at: :desc) # 新しい順に並べる
+    if params[:facility_type].present?
+      if params[:facility_type] == ""
+        # すべて表示
+        @posts = Post.order(created_at: :desc)
+      else
+        # 選択した投稿種別で絞り込み
+        @posts = Post.where(facility_type: params[:facility_type]).order(created_at: :desc)
+      end
+    else
+      @posts = Post.order(created_at: :desc)
+    end
   end
 
   def show

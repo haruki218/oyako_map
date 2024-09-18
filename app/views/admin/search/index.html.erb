@@ -1,4 +1,5 @@
 <div class="container mt-3">
+
   <% if @model == 'user' %>
     <h2>ユーザー検索結果</h2>
     <% if @records.any? %>
@@ -43,6 +44,21 @@
     <% end %>
 
   <% elsif @model == 'post' %>
+  <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
+    <div class="input-group mb-3">
+      <div class="input-group-append ml-3">
+      <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
+      </div>
+      <%= hidden_field_tag :model, @model %>
+      <%= hidden_field_tag :content, @content %> <!-- 検索条件を保持 -->
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit">
+          <i class="fas fa-search">絞り込む</i>
+        </button>
+      </div>
+    </div>
+  <% end %>
+  
     <h2>投稿検索結果</h2>
     <% if @records.any? %>
       <table class="table">

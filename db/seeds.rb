@@ -35,7 +35,7 @@ post1 = Post.find_or_create_by!(title: "渋谷キッズパーク") do |post|
   post.latitude = 35.659116
   post.longitude = 139.703727
   post.user = user1
-  post.facility_type = ""
+  post.facility_type = "play"
   post.images.attach(
     [
       { io: File.open("#{Rails.root}/db/fixtures/kids-park1.jpg"), filename: "kids-park1.jpg" },
@@ -52,7 +52,7 @@ post2 = Post.find_or_create_by!(title: "新宿ボールパーク") do |post|
   post.latitude = 35.691470
   post.longitude = 139.704118
   post.user = user1
-  post.facility_type = ""
+  post.facility_type = "play"
   post.images.attach(
     [
       { io: File.open("#{Rails.root}/db/fixtures/ball-park1.jpg"), filename: "ball-park1.jpg" },
