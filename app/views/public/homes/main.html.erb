@@ -1,10 +1,44 @@
-  <div class="container mt-4">
-    <h1 class="mb-4">都道府県を選んでください</h1>
-    <div class="row">
-      <% @prefectures.each do |prefecture| %>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h3>最近の投稿</h3>
+    </div>
+  </div>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <!-- 投稿の画像を表示 -->
+          <% if post.images.attached? %>
+            <%= image_tag post.images.first.variant(resize_to_limit: [300, 200]), class: "card-img-top" %>
+          <% else %>
+            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="No image">
+          <% end %>
+
+          <div class="card-body">
+            <!-- 投稿のタイトルを表示 -->
+            <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+            
+            <!-- 最初のコメントを表示 -->
+            <% if post.comments.any? %>
+              <p class="card-text"><%= post.comments.first.content.truncate(50) %></p>
+            <% else %>
+              <p class="card-text">コメントはありません</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <h3 class="my-4">地図を見る</h3>
+  <% @prefectures_by_region.each do |region, prefectures| %>
+    <h5><%= region %></h5>
+    <div class="row mb-1">
+      <% prefectures.each do |prefecture| %>
+        <div class="col-6 col-md-4 col-lg-3 mb-1">
           <%= link_to prefecture, map_path(prefecture), class: "btn btn-info btn-block" %>
         </div>
       <% end %>
     </div>
-  </div>
+  <% end %>
+</div>
