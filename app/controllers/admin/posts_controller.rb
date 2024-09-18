@@ -2,16 +2,23 @@ class Admin::PostsController < ApplicationController
   before_action :authenticate_admin!
   
   def index
-    if params[:facility_type].present?
-      if params[:facility_type] == ""
-        # すべて表示
-        @posts = Post.order(created_at: :desc)
-      else
-        # 選択した投稿種別で絞り込み
-        @posts = Post.where(facility_type: params[:facility_type]).order(created_at: :desc)
-      end
+    @facility_type = params[:facility_type]
+    # 施設タイプによる絞り込み
+    @posts = Post.all
+    if @facility_type.present?
+      @posts = @posts.where(facility_type: @facility_type)
+    end
+    # ソートの適用
+    if params[:latest]
+      @posts = @posts.latest
+    elsif params[:old]
+      @posts = @posts.old
+    elsif params[:highly_rated]
+      @posts = @posts.highly_rated
+    elsif params[:most_commented]
+      @posts = @posts.most_commented
     else
-      @posts = Post.order(created_at: :desc)
+      @posts = @posts.latest
     end
   end
 

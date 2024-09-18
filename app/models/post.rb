@@ -10,6 +10,19 @@ class Post < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
   
+  # ソート用のスコープ
+  scope :latest, -> { order(created_at: :desc) }
+  scope :old, -> { order(created_at: :asc) }
+  scope :highly_rated, -> { 
+    left_joins(comments: :ratings)
+    .group(:id)
+    .order(Arel.sql('COALESCE(AVG(ratings.score), 0) DESC'))
+  }
+  scope :most_commented, -> {
+    left_joins(:comments)
+    .group(:id)
+    .order(Arel.sql('COUNT(comments.id) DESC'))
+  }
   # 投稿に紐づくコメントの評価の平均を計算
   def average_rating
     ratings = comments.joins(:ratings).pluck(:score)

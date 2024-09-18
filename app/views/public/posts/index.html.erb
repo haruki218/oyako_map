@@ -1,7 +1,9 @@
 <div class="container mt-3">
+  <h1>みんなの投稿</h1>
+  <!--絞り込み機能-->
   <%= form_with url: posts_path, method: :get, local: true do |f| %>
     <div class="input-group mb-3">
-      <div class="input-group-append ml-3">
+      <div class="input-group-append">
       <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
       </div>
       <div class="input-group-append">
@@ -11,8 +13,14 @@
       </div>
     </div>
   <% end %>
+  <!--ソート機能-->
+  <div class="mb-3">
+    <%= link_to '新しい順', posts_path(latest: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to '古い順', posts_path(old: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to '評価が高い順', posts_path(highly_rated: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to 'コメントが多い順', posts_path(most_commented: "true", facility_type: params[:facility_type]) %>
+  </div>
 
-  <h1>みんなの投稿</h1>
   <table class="table">
     <thead>
       <tr>

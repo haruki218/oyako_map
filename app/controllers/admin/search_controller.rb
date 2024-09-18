@@ -14,6 +14,18 @@ class Admin::SearchController < ApplicationController
       if @facility_type.present?
         @records = @records.where(facility_type: @facility_type)
       end
+      # ソートの適用
+      if params[:latest]
+        @records = @records.latest
+      elsif params[:old]
+        @records = @records.old
+      elsif params[:highly_rated]
+        @records = @records.highly_rated
+      elsif params[:most_commented]
+        @records = @records.most_commented
+      else
+        @records = @records.latest
+      end
     end
   end
 end
