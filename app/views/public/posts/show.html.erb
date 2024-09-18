@@ -15,7 +15,7 @@
   
   <p><strong>タグ:</strong>
     <% @post.tags.each do |tag| %>
-      <span class="badge badge-info"><%= tag.name %></span>
+        <%= link_to tag.name, tag_path(tag), class: "badge badge-info" %>
     <% end %>
   </p>
   <p><strong>〒</strong> <%= @post.postal_code %></p>
