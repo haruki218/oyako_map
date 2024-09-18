@@ -31,7 +31,7 @@
   
   <h3>コメント一覧</h3>
   <% if @post.comments.any? %>
-    <ul class="list-group">
+    <ul class="list-group my-3">
       <% @post.comments.each do |comment| %>
         <li class="list-group-item">
           <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
@@ -48,19 +48,22 @@
     <p>コメントはまだありません。</p>
   <% end %>
   
-  <%= form_with(model: [@post, @comment], local: true) do |f| %>
-    <div class="form-group">
-      <%= f.label :content, "コメント" %>
-      <%= f.text_area :content, class: "form-control", required: true %>
-    </div>
-  
-    <div class="form-group" id="star">
-      <%= f.label :score, "評価" %>
-      <%= hidden_field_tag 'rating[score]', nil, id: :rating_score, class: 'form-control' %>
-      <div id="rating_raty"></div>
-    </div>
-  
-    <%= f.submit "投稿する", class: "btn btn-primary" %>
+  <% unless current_user.guest_user? %> 
+    <%= form_with(model: [@post, @comment], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.label :content, "コメント" %>
+        <%= f.text_area :content, class: "form-control", required: true %>
+      </div>
+    
+      <div class="form-group" id="star">
+        <%= f.label :score, "評価" %>
+        <%= hidden_field_tag 'rating[score]', nil, id: :rating_score, class: 'form-control' %>
+        <div id="rating_raty"></div>
+      </div>
+      <%= f.submit "投稿する", class: "btn btn-primary" %>
+    <% end %>
+  <% else %>
+    <p>コメントの投稿にはユーザー登録が必要です</p>
   <% end %>
   
   <% if @post.user == current_user %>
