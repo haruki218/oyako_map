@@ -2,7 +2,24 @@ class Admin::PostsController < ApplicationController
   before_action :authenticate_admin!
   
   def index
-    @posts = Post.order(created_at: :desc) # 新しい順に並べる
+    @facility_type = params[:facility_type]
+    # 施設タイプによる絞り込み
+    @posts = Post.all
+    if @facility_type.present?
+      @posts = @posts.where(facility_type: @facility_type)
+    end
+    # ソートの適用
+    if params[:latest]
+      @posts = @posts.latest
+    elsif params[:old]
+      @posts = @posts.old
+    elsif params[:highly_rated]
+      @posts = @posts.highly_rated
+    elsif params[:most_commented]
+      @posts = @posts.most_commented
+    else
+      @posts = @posts.latest
+    end
   end
 
   def show
@@ -23,11 +40,21 @@ class Admin::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    # タグが１つも選択されていない場合
     if params[:post][:tag_ids].blank?
       flash[:alert] = 'タグをすべて削除することはできません'
       render :edit
     else
+      # 画像の削除
+      if params[:post][:remove_image_ids].present?
+        params[:post][:remove_image_ids].each do |image_id|
+          image = @post.images.find_by(id: image_id)
+          image.purge if image
+        end
+      end
+      # 新しい画像の追加
+      if params[:post][:images].present?
+        @post.images.attach(params[:post][:images])
+      end
       if @post.update(post_params)
         redirect_to admin_post_path(@post), notice: '投稿が更新されました'
       else

@@ -1,0 +1,13 @@
+<%= form_with url: admin_search_path, method: :get, local: true do |f| %>
+  <div class="input-group">
+    <%= f.text_field :content, placeholder: "キーワードを入力", class: "form-control" %>
+    <div class="input-group-append">
+      <%= f.select :model, options_for_select({"投稿" => "post", "ユーザー" => "user"}), {}, class: "custom-select" %>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-outline-success" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+<% end %>

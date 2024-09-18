@@ -1,5 +1,26 @@
 <div class="container mt-3">
   <h1>みんなの投稿</h1>
+  <!--絞り込み機能-->
+  <%= form_with url: posts_path, method: :get, local: true do |f| %>
+    <div class="input-group mb-3">
+      <div class="input-group-append">
+      <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-success" type="submit">
+          <i class="fas fa-search">絞り込む</i>
+        </button>
+      </div>
+    </div>
+  <% end %>
+  <!--ソート機能-->
+  <div class="mb-3">
+    <%= link_to '新しい順', posts_path(latest: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to '古い順', posts_path(old: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to '評価が高い順', posts_path(highly_rated: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to 'コメントが多い順', posts_path(most_commented: "true", facility_type: params[:facility_type]) %>
+  </div>
+
   <table class="table">
     <thead>
       <tr>
@@ -15,9 +36,9 @@
       <% @posts.each do |post| %>
         <tr>
           <td>
-            <% if post.image.attached? %>
+            <% if post.images.attached? %>
               <%= link_to post_path(post) do %>
-                <%= image_tag post.image.variant(resize_to_limit: [200, 200]) %>
+                <%= image_tag post.images.first.variant(resize_to_limit: [200, 200]) %>
               <% end %>
             <% else %>
               画像なし
@@ -40,9 +61,9 @@
             <% end %>
           </td>
           <td>
-            <% post.tags.each do |tag| %>
-              <span class="badge badge-info"><%= tag.name %></span>
-            <% end %>
+          <% post.tags.each do |tag| %>
+            <%= link_to tag.name, tag_path(tag), class: "badge badge-info" %>
+          <% end %>
           </td>
         </tr>
       <% end %>

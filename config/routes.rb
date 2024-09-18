@@ -15,7 +15,8 @@ Rails.application.routes.draw do
     resources :posts, only: [:show, :edit, :update, :destroy] do
       resources :comments, only: [:destroy]
     end
-    resources :tags, only: [:index, :create, :destroy]
+    resources :tags, only: [:show, :index, :create, :destroy]
+    get '/search', to: 'search#index', as: 'search'
   end
 
   # パブリック側
@@ -33,7 +34,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy], controller: 'public/comments'
     resources :ratings, only: [:create], controller: 'public/ratings'
   end
-  resources :tags, only: [:create, :destroy], controller: 'public/tags'
+  resources :tags, only: [:show, :create, :destroy], controller: 'public/tags'
   get '/search', to: 'public/search#index', as: 'search'
   get '/maps/:prefecture_name', to: 'public/maps#show', as: 'map'
   

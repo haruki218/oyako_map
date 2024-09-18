@@ -1,5 +1,5 @@
-class Public::SearchController < ApplicationController
-  before_action :authenticate_user!
+class Admin::SearchController < ApplicationController
+  before_action :authenticate_admin!
   
   def index
     @model = params[:model]

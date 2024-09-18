@@ -16,7 +16,24 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.order(created_at: :desc) # 新しい順に並べる
+    @facility_type = params[:facility_type]
+    # 施設タイプによる絞り込み
+    @posts = Post.all
+    if @facility_type.present?
+      @posts = @posts.where(facility_type: @facility_type)
+    end
+    # ソートの適用
+    if params[:latest]
+      @posts = @posts.latest
+    elsif params[:old]
+      @posts = @posts.old
+    elsif params[:highly_rated]
+      @posts = @posts.highly_rated
+    elsif params[:most_commented]
+      @posts = @posts.most_commented
+    else
+      @posts = @posts.latest
+    end
   end
 
   def show
@@ -31,7 +48,11 @@ class Public::PostsController < ApplicationController
     if params[:facility_type].present?
       @post.facility_type = params[:facility_type]
       @post.title = facility_title(params[:facility_type])
+    # 遊び場の投稿時にfacility_typeをplayに設定
+    elsif @post.facility_type.blank?
+      @post.facility_type = 'play'
     end
+    
     if @post.save
       @post.tags = Tag.where(id: params[:post][:tag_ids])
       if params[:comment].present? && params[:comment][:content].present?
@@ -56,12 +77,22 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    # タグが１つも選択されていない場合
     if params[:post][:tag_ids].blank?
       flash[:alert] = 'タグをすべて削除することはできません'
       render :edit
     else
-      if @post.update(post_params)
+      # 画像の削除
+      if params[:post][:remove_image_ids].present?
+        params[:post][:remove_image_ids].each do |image_id|
+          image = @post.images.find_by(id: image_id)
+          image.purge if image
+        end
+      end
+      # 新しい画像の追加
+      if params[:post][:images].present?
+        @post.images.attach(params[:post][:images])
+      end
+      if @post.update(post_params_without_images)
         redirect_to @post, notice: '投稿が更新されました'
       else
         render :edit
@@ -104,6 +135,10 @@ class Public::PostsController < ApplicationController
   end
   
   def post_params
-    params.require(:post).permit(:title, :image, :facility_type, :address, :latitude, :longitude, :postal_code, tag_ids: [])
+    params.require(:post).permit(:title, :facility_type, :address, :latitude, :longitude, :postal_code, images: [], tag_ids: [])
+  end
+  
+  def post_params_without_images
+    params.require(:post).permit(:title, :facility_type, :address, :latitude, :longitude, :postal_code, tag_ids: [])
   end
 end

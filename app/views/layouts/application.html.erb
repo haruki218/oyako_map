@@ -13,10 +13,10 @@
 
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100" style="background-color: #fff7ef">
     <header class="shadow-sm">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
+      <nav class="navbar navbar-expand-lg" style="background-color: #b5edab">
+        <div class="container-fluid mx-5">
           <% if admin_signed_in? %>
             <%= link_to "おやこマップ", root_path, class: 'nav-link text-dark' %>
             <span class="ml-3">管理者権限でログインしています</span>
@@ -49,6 +49,9 @@
                 <li class="nav-item">
                   <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
                 </li>
+                <li class="nav-item">
+                  <%= render 'admin/search/form' %>
+                </li>
               <% elsif user_signed_in? %>
                 <li class="nav-item">
                   <%= link_to "投稿一覧", posts_path, class: 'nav-link text-dark' %>
@@ -63,6 +66,9 @@
                 <% end %>
                 <li class="nav-item">
                   <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= render 'public/search/form' %>
                 </li>
               <% else %>
                 <li class="nav-item">
@@ -93,6 +99,14 @@
         </button>
       </div>
     <% end %>
-    <%= yield %>
+    <main class="flex-grow-1">
+      <%= yield %>
+    </main>
+    <footer class="container-fluid d-flex align-items-center justify-content-center pt-5 pb-4"
+      style="background-color: #b5edab">
+      <div class="row">
+        <p>©おやこマップ</p>
+      </div>
+    </footer>
   </body>
 </html>

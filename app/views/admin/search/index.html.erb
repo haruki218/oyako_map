@@ -7,20 +7,31 @@
         <thead>
           <tr>
             <th>ユーザー名</th>
+            <th>登録日</th>
             <th>最近の投稿</th>
+            <th>最近のコメント</th>
           </tr>
         </thead>
         <tbody>
           <% @records.each do |user| %>
             <% unless user.guest_user? %> <!--ゲストユーザーは表示しない-->
               <tr>
-                <td><%= link_to user.name, user_path(user) %></td>
+                <td><%= link_to user.name, admin_user_path(user) %></td>
+                <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
                 <td>
                   <% if user.posts.any? %>
-                    <%= link_to user.posts.last.title, post_path(user.posts.last) %>
+                    <%= link_to user.posts.last.title, admin_post_path(user.posts.last) %>
                     <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
                   <% else %>
                     まだ投稿がありません
+                  <% end %>
+                </td>
+                <td>
+                  <% if user.comments.any? %>
+                    <%= user.comments.last.content.truncate(30) %>
+                    <small>(<%= user.comments.last.created_at.strftime("%Y-%m-%d") %>)</small>
+                  <% else %>
+                    まだコメントがありません
                   <% end %>
                 </td>
               </tr>
@@ -35,7 +46,7 @@
   <% elsif @model == 'post' %>
   <h2>投稿検索結果</h2>
   <!--絞り込み機能-->
-  <%= form_with url: search_path, method: :get, local: true do |f| %>
+  <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
     <div class="input-group mb-3">
       <div class="input-group-append">
       <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
@@ -51,17 +62,17 @@
   <% end %>
   <!--ソート機能-->
   <div class="mb-3">
-    <%= link_to '新しい順', search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '古い順', search_path(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '評価が高い順', search_path(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to 'コメントが多い順', search_path(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
+    <%= link_to '新しい順', admin_search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to '古い順', admin_search_path(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to '評価が高い順', admin_search_path(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
+    <%= link_to 'コメントが多い順', admin_search_path(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
   </div>
 
     <% if @records.any? %>
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 10%;">画像</th>
+            <th style="width: 10%;">ユーザー</th>
             <th style="width: 15%;">タイトル</th>
             <th style="width: 10%;">評価</th>
             <th style="width: 20%;">住所</th>
@@ -72,16 +83,8 @@
         <tbody>
           <% @records.each do |post| %>
             <tr>
-              <td>
-                <% if post.images.attached? %>
-                  <%= link_to post_path(post) do %>
-                    <%= image_tag post.images.first.variant(resize_to_limit: [200, 200]) %>
-                  <% end %>
-                <% else %>
-                  画像なし
-                <% end %>
-              </td>
-              <td><%= link_to post.title, post_path(post) %></td>
+              <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
+              <td><%= link_to post.title, admin_post_path(post) %></td>
               <td>
                 <% if post.comments.any? %>
                   <%= number_with_precision(post.average_rating, precision: 1) %> / 5

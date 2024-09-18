@@ -1,7 +1,7 @@
 <div class="container d-flex flex-column align-items-center ">
   <div class='mx-auto mb-5 col-11 col-md-10 col-lg-8'>
     <h2>設備の投稿</h2>
-    <%= form_with model: @post, url: posts_path, local: true do |f| %>
+    <%= form_with(model: @post, url: posts_path, local: true, multipart: true) do |f| %>
       <div class="form-group">
         <label for="facility_type">設備の種類</label><br>
         <%= radio_button_tag 'facility_type', 'nursing_room', true, id: 'nursing_room', required: true %>
@@ -11,8 +11,11 @@
       </div>
     
       <div class="form-group">
-        <%= f.label :image, "画像" %>
-        <%= f.file_field :image %>
+        <%= f.label :images, "画像" %><br>
+        <%= f.file_field :images, multiple: true, accept: 'image/*' %>
+        <small class="form-text text-muted">
+          ファイル選択の際一度に複数の画像を選択できます<br>ドラッグまたはCtrlかShiftキーを押しながら選択します
+        </small>
       </div>
     
       <div class="form-group">
@@ -41,7 +44,7 @@
           <% end %>
         </div>
       </div>
-      <%= f.submit "投稿する", class: "btn btn-primary mb-3" %>
+      <%= f.submit "投稿する", class: "btn btn-success mb-3" %>
     <% end %>
     <%= link_to "戻る", new_post_path, class: "pb-5" %>
   </div>

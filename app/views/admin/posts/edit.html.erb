@@ -1,6 +1,6 @@
 <div class="container mt-3">
   <h1>投稿編集</h1>
-  <%= form_with(model: @post, url: admin_post_path(@post), local: true) do |f| %>
+  <%= form_with(model: @post, url: admin_post_path(@post), local: true, multipart: true) do |f| %>
     <div class="form-group">
       <%= f.label :title, "施設名" %>
       <%= f.text_field :title, class: "form-control", required: true %>
@@ -23,10 +23,31 @@
       </div>
     </div>
 
+    <!-- 画像削除オプション -->
     <div class="form-group">
-      <%= f.submit "更新する", class: "btn btn-primary" %>
+      <label>投稿された画像</label>
+      <div class="d-flex flex-wrap">
+        <% @post.images.each do |image| %>
+          <div class="mr-3 mb-3">
+            <%= image_tag image.variant(resize: "100x100"), class: "img-thumbnail" %>
+            <div class="mt-1">
+              <%= check_box_tag "post[remove_image_ids][]", image.id, false, id: "remove_image_#{image.id}" %>
+              <%= label_tag "remove_image_#{image.id}", "削除" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :images, "新しい画像を追加" %>
+      <%= f.file_field :images, multiple: true, class: "form-control-file" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit "更新する", class: "btn btn-success" %>
     </div>
   <% end %>
   
-  <%= link_to "投稿を削除", admin_post_path(@post), method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
+  <%= link_to "投稿を削除", admin_post_path(@post), method: :delete, class: "btn btn-danger mb-3", data: { confirm: "本当に削除しますか？" } %>
 </div>
