@@ -1,18 +1,19 @@
-<div class="container mt-3">
+<div class="container-fluid mt-3">
   <h1><%= @post.title %></h1>
-  
   <% if @post.images.attached? %>
     <div class="row d-flex justify-content-center">
       <% @post.images.each do |image| %>
-        <div class="col-md-4 mb-3 d-flex align-items-center justify-content-center bg-light p-3" style="height: 300px;">
-          <%= image_tag image.variant(resize_to_limit: [300, 300]) %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
+          <%= image_tag image.variant(resize_to_limit: [450, 300]), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
         </div>
       <% end %>
     </div>
   <% else %>
     <p>画像はありません</p>
   <% end %>
-  
+</div>
+
+<div class="container mt-3">
   <p><strong>タグ:</strong>
     <% @post.tags.each do |tag| %>
         <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
@@ -35,7 +36,7 @@
       <% @post.comments.each do |comment| %>
         <li class="list-group-item">
           <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
-          <p><%= comment.content %></p>
+          <p><%= simple_format(comment.content) %></p>
           <small>評価: <strong><%= comment.ratings.average(:score).to_f.round(1) %></strong> / 5</small>
           <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
             <%= link_to '削除', admin_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
