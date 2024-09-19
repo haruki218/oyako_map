@@ -9,7 +9,11 @@
       <% end %>
     </div>
   <% else %>
-    <p>画像はありません</p>
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
+        <%= image_tag asset_path('no-image.png'), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
+      </div>
+    </div>
   <% end %>
 </div>
 
