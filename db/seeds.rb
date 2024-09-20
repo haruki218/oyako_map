@@ -107,7 +107,10 @@ post5 = Post.find_or_create_by!(title: "代々木水族館") do |post|
     [
       { io: File.open("#{Rails.root}/db/fixtures/aquarium1.jpg"), filename: "aquarium1.jpg" },
       { io: File.open("#{Rails.root}/db/fixtures/aquarium2.jpg"), filename: "aquarium2.jpg" },
-      { io: File.open("#{Rails.root}/db/fixtures/aquarium3.jpg"), filename: "aquarium3.jpg" }
+      { io: File.open("#{Rails.root}/db/fixtures/aquarium3.jpg"), filename: "aquarium3.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/aquarium4.jpg"), filename: "aquarium4.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/aquarium5.jpg"), filename: "aquarium5.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/aquarium6.jpg"), filename: "aquarium6.jpg" }
     ]
   )
 end
@@ -154,7 +157,10 @@ post9 = Post.find_or_create_by!(title: "札幌動物園") do |post|
   post.images.attach(
     [
       { io: File.open("#{Rails.root}/db/fixtures/zoo1.jpg"), filename: "zoo1.jpg" },
-      { io: File.open("#{Rails.root}/db/fixtures/zoo2.jpg"), filename: "zoo2.jpg" }
+      { io: File.open("#{Rails.root}/db/fixtures/zoo2.jpg"), filename: "zoo2.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/zoo3.jpg"), filename: "zoo3.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/zoo4.jpg"), filename: "zoo4.jpg" },
+      { io: File.open("#{Rails.root}/db/fixtures/nursing_room1.jpg"), filename: "nursing_room1.jpg" }
     ]
   )
 end
