@@ -1,12 +1,15 @@
 <div class="container-fluid mt-3">
   <h1 class="text-center"><%= @post.title %></h1>
-  <% if @post.images.attached? %>
+  <% if @images.any? %>
     <div class="row d-flex justify-content-center">
-      <% @post.images.each do |image| %>
+      <% @images.each do |image| %>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
           <%= image_tag image.variant(resize_to_limit: [450, 300]), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
         </div>
       <% end %>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <%= paginate @images %>
     </div>
   <% else %>
     <div class="row d-flex justify-content-center">

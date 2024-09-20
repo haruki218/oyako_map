@@ -28,6 +28,8 @@ class Admin::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @comment = Comment.new
     @rating = Rating.new
+    # ページネーション
+    @images = @post.images.page(params[:page]).per(3)
   end
 
   def new
