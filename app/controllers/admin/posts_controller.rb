@@ -20,6 +20,8 @@ class Admin::PostsController < ApplicationController
     else
       @posts = @posts.latest
     end
+    # ページネーション
+    @posts = @posts.page(params[:page]).per(8)
   end
 
   def show

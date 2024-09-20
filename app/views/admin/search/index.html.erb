@@ -1,7 +1,7 @@
 <div class="container mt-3">
 
   <% if @model == 'user' %>
-    <h2>ユーザー検索結果</h2>
+    <h2>"<%= @content %>"のユーザー検索結果</h2>
     <% if @records.any? %>
       <table class="table">
         <thead>
@@ -44,7 +44,7 @@
     <% end %>
 
   <% elsif @model == 'post' %>
-  <h2>投稿検索結果</h2>
+  <h2>"<%= @content %>"の投稿検索結果</h2>
   <!--絞り込み機能-->
   <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
     <div class="input-group mb-3">
@@ -113,4 +113,7 @@
       <p>該当する投稿が見つかりませんでした</p>
     <% end %>
   <% end %>
+  <div class="row d-flex justify-content-center mb-3">
+    <%= paginate @records %>
+  </div>
 </div>
