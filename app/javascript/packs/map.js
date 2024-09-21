@@ -4,68 +4,69 @@ let markers = []; // 複数マーカーの管理
 
 async function initMap() {
     console.log("Initializing map...");
-  const { Map } = await google.maps.importLibrary("maps");
-  const { Marker } = await google.maps.importLibrary("marker");
+    const { Map } = await google.maps.importLibrary("maps");
+    const { Marker } = await google.maps.importLibrary("marker");
 
-  const prefectureCenters = {
-    '北海道': { lat: 43.0687, lng: 141.3508 },
-    '青森県': { lat: 40.8245, lng: 140.7405 },
-    '岩手県': { lat: 39.7035, lng: 141.1526 },
-    '宮城県': { lat: 38.2685, lng: 140.8720 },
-    '秋田県': { lat: 39.7186, lng: 140.1023 },
-    '山形県': { lat: 38.2404, lng: 140.3636 },
-    '福島県': { lat: 37.7500, lng: 140.4677 },
-    '茨城県': { lat: 36.3417, lng: 140.4468 },
-    '栃木県': { lat: 36.5659, lng: 139.8835 },
-    '群馬県': { lat: 36.3906, lng: 139.0604 },
-    '埼玉県': { lat: 35.8570, lng: 139.6490 },
-    '千葉県': { lat: 35.6045, lng: 140.1231 },
-    '東京都': { lat: 35.6895, lng: 139.6917 },
-    '神奈川県': { lat: 35.4477, lng: 139.6425 },
-    '新潟県': { lat: 37.9024, lng: 139.0236 },
-    '富山県': { lat: 36.6952, lng: 137.2113 },
-    '石川県': { lat: 36.5946, lng: 136.6256 },
-    '福井県': { lat: 36.0652, lng: 136.2217 },
-    '山梨県': { lat: 35.6641, lng: 138.5684 },
-    '長野県': { lat: 36.6513, lng: 138.1809 },
-    '岐阜県': { lat: 35.3911, lng: 136.7236 },
-    '静岡県': { lat: 34.9769, lng: 138.3830 },
-    '愛知県': { lat: 35.1802, lng: 136.9065 },
-    '三重県': { lat: 34.7302, lng: 136.5086 },
-    '滋賀県': { lat: 35.0045, lng: 135.8685 },
-    '京都府': { lat: 35.0212, lng: 135.7556 },
-    '大阪府': { lat: 34.6863, lng: 135.5200 },
-    '兵庫県': { lat: 34.6912, lng: 135.1830 },
-    '奈良県': { lat: 34.6851, lng: 135.8049 },
-    '和歌山県': { lat: 34.2261, lng: 135.1675 },
-    '鳥取県': { lat: 35.5036, lng: 134.2383 },
-    '島根県': { lat: 35.4723, lng: 133.0505 },
-    '岡山県': { lat: 34.6617, lng: 133.9349 },
-    '広島県': { lat: 34.3966, lng: 132.4596 },
-    '山口県': { lat: 34.1861, lng: 131.4705 },
-    '徳島県': { lat: 34.0658, lng: 134.5593 },
-    '香川県': { lat: 34.3401, lng: 134.0434 },
-    '愛媛県': { lat: 33.8416, lng: 132.7656 },
-    '高知県': { lat: 33.5595, lng: 133.5311 },
-    '福岡県': { lat: 33.6064, lng: 130.4183 },
-    '佐賀県': { lat: 33.2492, lng: 130.2988 },
-    '長崎県': { lat: 32.7448, lng: 129.8737 },
-    '熊本県': { lat: 32.7898, lng: 130.7417 },
-    '大分県': { lat: 33.2382, lng: 131.6125 },
-    '宮崎県': { lat: 31.9110, lng: 131.4239 },
-    '鹿児島県': { lat: 31.5602, lng: 130.5581 },
-    '沖縄県': { lat: 26.2124, lng: 127.6809 }
-  };
+    const prefectureCenters = {
+        '北海道': { lat: 43.0687, lng: 141.3508 },
+        '青森県': { lat: 40.8245, lng: 140.7405 },
+        '岩手県': { lat: 39.7035, lng: 141.1526 },
+        '宮城県': { lat: 38.2685, lng: 140.8720 },
+        '秋田県': { lat: 39.7186, lng: 140.1023 },
+        '山形県': { lat: 38.2404, lng: 140.3636 },
+        '福島県': { lat: 37.7500, lng: 140.4677 },
+        '茨城県': { lat: 36.3417, lng: 140.4468 },
+        '栃木県': { lat: 36.5659, lng: 139.8835 },
+        '群馬県': { lat: 36.3906, lng: 139.0604 },
+        '埼玉県': { lat: 35.8570, lng: 139.6490 },
+        '千葉県': { lat: 35.6045, lng: 140.1231 },
+        '東京都': { lat: 35.6895, lng: 139.6917 },
+        '神奈川県': { lat: 35.4477, lng: 139.6425 },
+        '新潟県': { lat: 37.9024, lng: 139.0236 },
+        '富山県': { lat: 36.6952, lng: 137.2113 },
+        '石川県': { lat: 36.5946, lng: 136.6256 },
+        '福井県': { lat: 36.0652, lng: 136.2217 },
+        '山梨県': { lat: 35.6641, lng: 138.5684 },
+        '長野県': { lat: 36.6513, lng: 138.1809 },
+        '岐阜県': { lat: 35.3911, lng: 136.7236 },
+        '静岡県': { lat: 34.9769, lng: 138.3830 },
+        '愛知県': { lat: 35.1802, lng: 136.9065 },
+        '三重県': { lat: 34.7302, lng: 136.5086 },
+        '滋賀県': { lat: 35.0045, lng: 135.8685 },
+        '京都府': { lat: 35.0212, lng: 135.7556 },
+        '大阪府': { lat: 34.6863, lng: 135.5200 },
+        '兵庫県': { lat: 34.6912, lng: 135.1830 },
+        '奈良県': { lat: 34.6851, lng: 135.8049 },
+        '和歌山県': { lat: 34.2261, lng: 135.1675 },
+        '鳥取県': { lat: 35.5036, lng: 134.2383 },
+        '島根県': { lat: 35.4723, lng: 133.0505 },
+        '岡山県': { lat: 34.6617, lng: 133.9349 },
+        '広島県': { lat: 34.3966, lng: 132.4596 },
+        '山口県': { lat: 34.1861, lng: 131.4705 },
+        '徳島県': { lat: 34.0658, lng: 134.5593 },
+        '香川県': { lat: 34.3401, lng: 134.0434 },
+        '愛媛県': { lat: 33.8416, lng: 132.7656 },
+        '高知県': { lat: 33.5595, lng: 133.5311 },
+        '福岡県': { lat: 33.6064, lng: 130.4183 },
+        '佐賀県': { lat: 33.2492, lng: 130.2988 },
+        '長崎県': { lat: 32.7448, lng: 129.8737 },
+        '熊本県': { lat: 32.7898, lng: 130.7417 },
+        '大分県': { lat: 33.2382, lng: 131.6125 },
+        '宮崎県': { lat: 31.9110, lng: 131.4239 },
+        '鹿児島県': { lat: 31.5602, lng: 130.5581 },
+        '沖縄県': { lat: 26.2124, lng: 127.6809 }
+    };
 
-  const prefectureElement = document.getElementById('prefecture-name');
-  const prefecture = prefectureElement ? prefectureElement.textContent.trim() : null;
-  const center = prefectureCenters[prefecture] || { lat: 35.6895, lng: 139.6917 }; // デフォルトは東京
+    const prefectureElement = document.getElementById('prefecture-name');
+    const prefecture = prefectureElement ? prefectureElement.textContent.trim() : null;
+    const center = prefectureCenters[prefecture] || { lat: 35.6895, lng: 139.6917 }; // デフォルトは東京
 
-  map = new Map(document.getElementById("map"), {
-    center: center,
-    zoom: 15,
-    mapTypeControl: false
-  });
+    map = new Map(document.getElementById("map"), {
+        center: center,
+        zoom: 15,
+        mapTypeControl: false
+    });
+
     // 投稿データを取得してマーカーを追加する処理
     try {
         const response = await fetch(`/maps/${prefecture}.json`); // サーバーから投稿データを取得
@@ -239,10 +240,39 @@ async function geocodeLatLng(latLng) {
     });
 }
 
-// ターボリンクがロードされたときに地図を初期化
+// 投稿詳細ページの地図初期化関数
+async function initPostDetailMap() {
+    const mapElement = document.getElementById('map');
+    if (mapElement) {
+        const { Map } = await google.maps.importLibrary("maps");
+        const { Marker } = await google.maps.importLibrary("marker");
+
+        const latitude = parseFloat(mapElement.dataset.latitude);
+        const longitude = parseFloat(mapElement.dataset.longitude);
+        const title = mapElement.dataset.title;
+
+        map = new Map(mapElement, {
+            center: { lat: latitude, lng: longitude },
+            zoom: 15,
+            mapTypeControl: false
+        });
+
+        new Marker({
+            position: { lat: latitude, lng: longitude },
+            map: map,
+            title: title
+        });
+    }
+}
+
+// ターボリンクがロードされたときに適切な地図初期化関数を呼び出す
 document.addEventListener('turbolinks:load', () => {
     const mapElement = document.getElementById('map');
     if (mapElement) {
-        initMap();
+        if (mapElement.dataset.latitude && mapElement.dataset.longitude) {
+            initPostDetailMap();
+        } else {
+            initMap();
+        }
     }
 });
