@@ -81,12 +81,15 @@
           <%= f.label :content, "口コミ" %>
           <%= f.text_area :content, class: "form-control", required: true %>
         </div>
-      
-        <div class="form-group" id="star">
-          <%= f.label :score, "評価" %>
-          <%= hidden_field_tag 'rating[score]', nil, id: :rating_score, class: 'form-control' %>
-          <div id="rating_raty"></div>
-        </div>
+        <% if @post.ratings.exists?(user: current_user) %>
+          <p>この投稿には既に評価済みです。</p>
+        <% else %>
+          <div class="form-group" id="star">
+            <%= f.label :score, "評価" %>
+            <%= hidden_field_tag 'rating[score]', nil, id: :rating_score, class: 'form-control' %>
+            <div id="rating_raty"></div>
+          </div>
+        <% end %>
         <%= f.submit "投稿する", class: "btn btn-success mb-3" %>
       <% end %>
     <% else %>

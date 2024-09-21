@@ -8,12 +8,17 @@ class Public::CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      if params[:rating][:score].present?
-        @rating = @comment.ratings.build(score: params[:rating][:score])
-        @rating.user = current_user
-        @rating.save
+      # 評価が送信された場合のみ評価処理を行う
+      if params[:rating].present? && params[:rating][:score].present?
+        # 投稿に対して既に評価済みかを確認
+        unless @post.ratings.exists?(user: current_user)
+          @rating = @comment.ratings.build(score: params[:rating][:score])
+          @rating.user = current_user
+          @rating.save
+        else
+          flash[:alert] = 'この投稿には既に評価済みです'
+        end
       end
-
       redirect_to @post, notice: 'コメントが追加されました'
     else
       redirect_to @post, alert: 'コメントの追加に失敗しました'
