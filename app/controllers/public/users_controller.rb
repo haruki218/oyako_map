@@ -28,8 +28,9 @@ class Public::UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    redirect_to root_path, notice: "退会が完了しました"
+    current_user.update(is_active: false)
+    reset_session
+    redirect_to root_path, notice: "退会処理が完了しました"
   end
   
   private

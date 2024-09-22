@@ -11,6 +11,12 @@ class Admin::UsersController < ApplicationController
     @comments = @user.comments.order(created_at: :desc).page(params[:page]).per(5)
   end
 
+  def update
+    @user = User.find(params[:id])
+    @user.update(is_active: !@user.is_active)
+    redirect_to admin_users_path, notice: 'ステータスが変更されました。'
+  end
+
   def destroy
     @user = User.find(params[:id])
     @user.destroy
