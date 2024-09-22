@@ -10,9 +10,9 @@
           <p><strong>ニックネーム:</strong> <%= @user.name %></p>
           <p><strong>メールアドレス:</strong> <%= @user.email %></p>
           <% if @user.is_active? %>
-            <%= button_to 'アカウントを停止', admin_user_path(@user), method: :patch, class: "btn btn-danger", data: { confirm: '本当にアカウントを停止しますか？' } %>
+            <%= link_to 'アカウントを停止', admin_user_path(@user), method: :patch, class: "btn btn-danger", data: { confirm: '本当にアカウントを停止しますか？' } %>
           <% else %>
-            <%= button_to 'アカウントを復活', admin_user_path(@user), method: :patch, class: "btn btn-success", data: { confirm: '本当にアカウントを復活しますか？' } %>
+            <%= link_to 'アカウントを復活', admin_user_path(@user), method: :patch, class: "btn btn-success", data: { confirm: '本当にアカウントを復活しますか？' } %>
           <% end %>
         </div>
       </div>
@@ -21,7 +21,11 @@
 
   <div class="row">
     <div class="col-md-6">
-      <h3><%= @user.name %>さんの投稿履歴</h3>
+      <div class="d-flex justify-content-between align-items-center">
+        <h3><%= @user.name %>さんの投稿履歴</h3>
+        <%= link_to '投稿をすべて削除する', delete_all_posts_admin_user_path(@user), method: :delete, 
+                    data: { confirm: '本当にすべての投稿を削除しますか？' }, class: "btn btn-danger btn-sm" %>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -66,7 +70,11 @@
     </div>
     
     <div class="col-md-6">
-      <h3><%= @user.name %>さんのコメント履歴</h3>
+      <div class="d-flex justify-content-between align-items-center">
+        <h3><%= @user.name %>さんのコメント履歴</h3>
+        <%= link_to 'コメントをすべて削除する', delete_all_comments_admin_user_path(@user), method: :delete, 
+                    data: { confirm: '本当にすべてのコメントを削除しますか？' }, class: "btn btn-danger btn-sm" %>
+      </div>
       <table class="table">
         <thead>
           <tr>

@@ -17,9 +17,15 @@ class Admin::UsersController < ApplicationController
     redirect_to admin_users_path, notice: 'ステータスが変更されました。'
   end
 
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-    redirect_to admin_users_path, notice: "退会が完了しました"
+  def delete_all_posts
+    user = User.find(params[:id])
+    user.posts.destroy_all
+    redirect_to admin_user_path(user), notice: 'ユーザーの投稿をすべて削除しました。'
+  end
+  
+  def delete_all_comments
+    user = User.find(params[:id])
+    user.comments.destroy_all
+    redirect_to admin_user_path(user), notice: 'ユーザーのコメントをすべて削除しました。'
   end
 end
