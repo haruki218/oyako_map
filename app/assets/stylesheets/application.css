@@ -13,8 +13,8 @@
  *= require_tree .
  *= require_self
  */
-.bg-white {
-  background-color: #fff7ef;
+main {
+  background-color: #fef4f4;
 }
 
 .navbar-custom {
