@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container mt-3 users-container">
   <h1><%= @user.name %>さんの投稿履歴</h1>
   <table class="table users-posts-table">
     <thead>
@@ -19,11 +19,11 @@
           <td>
             <% if post.images.attached? %>
               <%= link_to post_path(post) do %>
-                <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "posts-image" %>
+                <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "table-image" %>
               <% end %>
             <% else %>
               <%= link_to post_path(post) do %>
-                <%= image_tag asset_path('no-image.png'), class: "posts-image" %>
+                <%= image_tag asset_path('no-image.png'), class: "table-image" %>
               <% end %>
             <% end %>
           </td>

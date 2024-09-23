@@ -4,7 +4,7 @@
     <div class="row d-flex justify-content-center">
       <% @images.each do |image| %>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
-          <%= image_tag image.variant(resize_to_limit: [450, 300]), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
+          <%= image_tag image.variant(resize_to_limit: [450, 300]), class: "show-image" %>
         </div>
       <% end %>
     </div>
@@ -14,7 +14,7 @@
   <% else %>
     <div class="row d-flex justify-content-center">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
-        <%= image_tag asset_path('no-image.png'), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
+        <%= image_tag asset_path('no-image.png'), class: "show-image" %>
       </div>
     </div>
   <% end %>
@@ -67,10 +67,7 @@
     </div>
 
     <div class="tab-pane fade" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab">
-      <div id="map" style="width: 100%; height: 400px;" 
-           data-latitude="<%= @post.latitude %>" 
-           data-longitude="<%= @post.longitude %>" 
-           data-title="<%= @post.title %>">
+      <div id="map" class="show-map" data-latitude="<%= @post.latitude %>" data-longitude="<%= @post.longitude %>" data-title="<%= @post.title %>">
       </div>
     </div>
   </div>

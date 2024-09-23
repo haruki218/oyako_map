@@ -1,7 +1,7 @@
 <div class="container mt-3">
 
   <% if @model == 'user' %>
-    <h2>"<%= @content %>"のユーザー検索結果</h2>
+    <h1>"<%= @content %>"のユーザー検索結果</h1>
     <% if @records.any? %>
       <table class="table">
         <thead>
@@ -33,7 +33,7 @@
     <% end %>
 
   <% elsif @model == 'post' %>
-  <h2>"<%= @content %>"の投稿検索結果</h2>
+  <h1>"<%= @content %>"の投稿検索結果</h1>
   <!--絞り込み機能-->
   <%= form_with url: search_path, method: :get, local: true do |f| %>
     <div class="input-group mb-3">
@@ -58,7 +58,7 @@
   </div>
 
     <% if @records.any? %>
-      <table class="table search-table">
+      <table class="table">
         <thead>
           <tr>
             <th>画像</th>
@@ -75,11 +75,11 @@
               <td>
                 <% if post.images.attached? %>
                   <%= link_to post_path(post) do %>
-                    <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "index-image" %>
+                    <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "table-image" %>
                   <% end %>
                 <% else %>
                   <%= link_to post_path(post) do %>
-                    <%= image_tag asset_path('no-image.png'), class: "index-image" %>
+                    <%= image_tag asset_path('no-image.png'), class: "table-image" %>
                   <% end %>
                 <% end %>
               </td>

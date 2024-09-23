@@ -21,7 +21,7 @@
     <%= link_to 'コメントが多い順', tag_path(@tag, most_commented: "true", facility_type: params[:facility_type]) %>
   </div>
 
-  <table class="table tags-table">
+  <table class="table">
     <thead>
       <tr>
         <th>画像</th>
@@ -38,11 +38,11 @@
           <td>
             <% if post.images.attached? %>
               <%= link_to post_path(post) do %>
-                <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "show-image" %>
+                <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "table-image" %>
               <% end %>
             <% else %>
               <%= link_to post_path(post) do %>
-                <%= image_tag asset_path('no-image.png'), class: "show-image" %>
+                <%= image_tag asset_path('no-image.png'), class: "table-image" %>
               <% end %>
             <% end %>
           </td>

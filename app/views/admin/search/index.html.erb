@@ -1,7 +1,7 @@
 <div class="container mt-3">
 
   <% if @model == 'user' %>
-    <h2>"<%= @content %>"のユーザー検索結果</h2>
+    <h1>"<%= @content %>"のユーザー検索結果</h1>
     <% if @records.any? %>
       <table class="table">
         <thead>
@@ -44,7 +44,7 @@
     <% end %>
 
   <% elsif @model == 'post' %>
-  <h2>"<%= @content %>"の投稿検索結果</h2>
+  <h1>"<%= @content %>"の投稿検索結果</h1>
   <!--絞り込み機能-->
   <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
     <div class="input-group mb-3">
@@ -72,12 +72,12 @@
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 10%;">ユーザー</th>
-            <th style="width: 15%;">タイトル</th>
-            <th style="width: 10%;">評価</th>
-            <th style="width: 20%;">住所</th>
-            <th style="width: 20%;">コメント</th>
-            <th style="width: 25%;">タグ</th>
+            <th>ユーザー</th>
+            <th>タイトル</th>
+            <th>評価</th>
+            <th>住所</th>
+            <th>コメント</th>
+            <th>タグ</th>
           </tr>
         </thead>
         <tbody>
