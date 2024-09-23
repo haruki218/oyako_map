@@ -46,6 +46,11 @@ main {
   text-decoration: underline;
 }
 
+.custom-container-fluid {
+  margin-right: 40px;
+  margin-left: 40px;
+}
+
 /*一覧テーブル*/
 .table th:nth-child(1) {
   width: 10%;

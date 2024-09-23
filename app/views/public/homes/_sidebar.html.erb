@@ -1,0 +1,17 @@
+<div class="sidebar-card">
+  <div class="sidebar-card-header text-center">
+    <h4>地域から探す</h4>
+  </div>
+  <div class="sidebar-card-body">
+    <% @prefectures_by_region.each do |region, prefectures| %>
+      <h5><%= region %></h5>
+      <div class="prefecture-list">
+        <% prefectures.each do |prefecture| %>
+          <div class="prefecture-item">
+            <%= link_to prefecture, map_path(prefecture), class: "btn btn-outline-success btn-sm rounded-pill" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

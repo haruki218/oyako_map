@@ -51,3 +51,64 @@
   height: 200px;
   object-fit: cover;
 }
+
+.main-card {
+  background-color: #fff9fc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+// サイドバー
+.sidebar-card {
+  background-color: #fff9fc;
+  border: 2px solid #b5edab;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.sidebar-card-header {
+  background-color: #b5edab;
+  color: #28a745;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.sidebar-card-header h4 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.sidebar-card-body {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+}
+
+.sidebar-card-body h5 {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  color: #333;
+}
+
+.prefecture-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.prefecture-item {
+  display: flex;
+  justify-content: center;
+}
+
+.prefecture-item a {
+  display: block;
+  width: 70px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  padding: 0;
+}

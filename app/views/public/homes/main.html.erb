@@ -1,52 +1,47 @@
-<div class="container mt-4">
-  <div class="main-image">
-    <%= image_tag asset_path('main-image.jpg'), class: 'main-img' %>
-    <div class="main-text">
-      <h1>おやこマップへ</h1>
-      <h1>ようこそ！</h1>
-      <p>親子で楽しむスポットを見つけよう</p>
-      <p>お住いの地域の地図や投稿一覧から</p>
-      <p>遊び場や授乳室などを探すことができます</p>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-12">
-      <h3>新着の遊び場！</h3>
-    </div>
-  </div>
+<div class="custom-container-fluid mt-4">
   <div class="row">
-    <% @posts.each do |post| %>
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <!-- 投稿の画像を表示 -->
-          <% if post.images.attached? %>
-            <%= image_tag post.images.first.variant(resize_to_limit: [300, 200]), class: "card-img-top" %>
-          <% else %>
-            <%= image_tag asset_path('no-image.png'), class: "card-img-top", alt: "No image" %>
-          <% end %>
-          <div class="card-body">
-            <!-- 投稿のタイトルを表示 -->
-            <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
-            <!-- 最初のコメントを表示 -->
-            <% if post.comments.any? %>
-              <p class="card-text"><%= post.comments.first.content.truncate(50) %></p>
-            <% else %>
-              <p class="card-text">コメントはありません</p>
-            <% end %>
-          </div>
+    <!--サイドバー-->
+    <div class="col-md-2">
+      <%= render 'public/homes/sidebar' %>
+    </div>
+    <!--メインコンテンツ-->
+    <div class="col-md-10">
+      <div class="main-image">
+        <%= image_tag asset_path('main-image.jpg'), class: 'main-img' %>
+        <div class="main-text">
+          <h2>おやこマップへ</h2>
+          <h2>ようこそ！</h2>
+          <p>親子で楽しむスポットを見つけよう</p>
+          <p>お住いの地域の地図や投稿一覧から</p>
+          <p>遊び場や授乳室などを探すことができます</p>
         </div>
       </div>
-    <% end %>
-  </div>
-  <h3 class="my-4">地図を見る</h3>
-  <% @prefectures_by_region.each do |region, prefectures| %>
-    <h5><%= region %></h5>
-    <div class="row mb-3">
-      <% prefectures.each do |prefecture| %>
-        <div class="col-6 col-md-4 col-lg-3 mb-1">
-          <%= link_to prefecture, map_path(prefecture), class: "btn btn-info btn-block rounded-pill" %>
+      <div class="row mt-5">
+        <div class="col-12">
+          <h3>新着の遊び場！</h3>
         </div>
-      <% end %>
+      </div>
+      <div class="row">
+        <% @posts.each do |post| %>
+          <div class="col-md-4 mb-4">
+            <div class="main-card">
+              <% if post.images.attached? %>
+                <%= image_tag post.images.first.variant(resize_to_limit: [300, 200]), class: "card-img-top" %>
+              <% else %>
+                <%= image_tag asset_path('no-image.png'), class: "card-img-top", alt: "No image" %>
+              <% end %>
+              <div class="card-body">
+                <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+                <% if post.comments.any? %>
+                  <p class="card-text"><%= post.comments.first.content.truncate(50) %></p>
+                <% else %>
+                  <p class="card-text">コメントはありません</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>
