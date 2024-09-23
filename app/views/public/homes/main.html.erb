@@ -23,7 +23,33 @@
       </div>
       <div class="row">
         <% @posts.each do |post| %>
-          <div class="col-md-4 mb-4">
+          <div class="col-md-4 mb-3">
+            <div class="main-card">
+              <% if post.images.attached? %>
+                <%= image_tag post.images.first.variant(resize_to_limit: [300, 200]), class: "card-img-top" %>
+              <% else %>
+                <%= image_tag asset_path('no-image.png'), class: "card-img-top", alt: "No image" %>
+              <% end %>
+              <div class="card-body">
+                <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+                <% if post.comments.any? %>
+                  <p class="card-text"><%= post.comments.first.content.truncate(50) %></p>
+                <% else %>
+                  <p class="card-text">コメントはありません</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12">
+          <h3>話題の遊び場！</h3>
+        </div>
+      </div>
+      <div class="row">
+        <% @commented_posts.each do |post| %>
+          <div class="col-md-4 mb-5">
             <div class="main-card">
               <% if post.images.attached? %>
                 <%= image_tag post.images.first.variant(resize_to_limit: [300, 200]), class: "card-img-top" %>
