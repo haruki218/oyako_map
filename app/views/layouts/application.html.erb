@@ -7,36 +7,37 @@
     <%= csp_meta_tag %>
     <script src="https://kit.fontawesome.com/8333ae5b3e.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <!-- Google Maps JavaScript API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['Maps_API_Key'] %>&callback=initMap" async defer></script>
 
   </head>
 
-  <body class="d-flex flex-column min-vh-100" style="background-color: #fff7ef">
+  <body class="d-flex flex-column min-vh-100 bg-white">
     <header class="shadow-sm">
-      <nav class="navbar navbar-expand-lg" style="background-color: #b5edab">
+      <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid mx-5">
           <% if admin_signed_in? %>
             <%= link_to root_path, class: 'nav-link' do %>
-              <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo', style: "width: 120px; height: auto;" %>
+              <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo' %>
             <% end %>
             <span class="ml-3">管理者権限でログインしています</span>
           <% elsif user_signed_in? %>
             <% if current_user.guest_user? %>
               <%= link_to main_page_path, style: "padding: 0;" do %>
-                <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo', style: "width: 120px; height: auto;" %>
+                <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo' %>
               <% end %>
               <span class="ml-3">ようこそ、ゲストさん</span>
             <% else %>
               <%= link_to main_page_path, style: "padding: 0;" do %>
-                <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo', style: "width: 120px; height: auto;" %>
+                <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo' %>
               <% end %>
               <span class="ml-3">ようこそ、<%= current_user.name %>さん</span>
             <% end %>
           <% else %>
             <%= link_to root_path, style: "padding: 0;" do %>
-              <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo', style: "width: 120px; height: auto;" %>
+              <%= image_tag 'logo.png', alt: 'おやこマップロゴ', class: 'logo' %>
             <% end %>
           <% end %>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,44 +47,44 @@
             <ul class="navbar-nav ml-auto">
               <% if admin_signed_in? %>
                 <li class="nav-item">
-                  <%= link_to "投稿一覧", admin_root_path, class: 'nav-link text-dark' %>
+                  <%= link_to "投稿一覧", admin_root_path, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "ユーザー一覧", admin_users_path, class: 'nav-link text-dark' %>
+                  <%= link_to "ユーザー一覧", admin_users_path, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "タグ一覧", admin_tags_path, class: 'nav-link text-dark' %>
+                  <%= link_to "タグ一覧", admin_tags_path, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
+                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
                   <%= render 'admin/search/form' %>
                 </li>
               <% elsif user_signed_in? %>
                 <li class="nav-item">
-                  <%= link_to "投稿一覧", posts_path, class: 'nav-link text-dark' %>
+                  <%= link_to "投稿一覧", posts_path, class: 'nav-link' %>
                 </li>
                 <% if current_user && !current_user.guest_user? %>
                   <li class="nav-item">
-                    <%= link_to "投稿フォーム", new_post_path, class: 'nav-link text-dark' %>
+                    <%= link_to "投稿フォーム", new_post_path, class: 'nav-link' %>
                   </li>
                   <li class="nav-item">
-                    <%= link_to "マイページ", mypage_path, class: 'nav-link text-dark' %>
+                    <%= link_to "マイページ", mypage_path, class: 'nav-link' %>
                   </li>
                 <% end %>
                 <li class="nav-item">
-                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
+                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
                   <%= render 'public/search/form' %>
                 </li>
               <% else %>
                 <li class="nav-item">
-                  <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
+                  <%= link_to "新規登録", new_user_registration_path, class: 'nav-link' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
+                  <%= link_to "ログイン", new_user_session_path, class: 'nav-link' %>
                 </li>
               <% end %>
             </ul>
@@ -110,8 +111,7 @@
     <main class="flex-grow-1">
       <%= yield %>
     </main>
-    <footer class="container-fluid d-flex align-items-center justify-content-center pt-5 pb-4"
-      style="background-color: #b5edab">
+    <footer class="container-fluid d-flex align-items-center justify-content-center pt-5 pb-4 footer-custom">
       <div class="row">
         <p>©おやこマップ</p>
       </div>
