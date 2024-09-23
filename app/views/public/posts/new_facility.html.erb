@@ -1,5 +1,5 @@
 <div class="container d-flex flex-column align-items-center ">
-  <div class='mx-auto mb-5 col-11 col-md-10 col-lg-8'>
+  <div class='col-11 col-md-10 col-lg-8 mt-3 mx-auto mb-5'>
     <h2>設備の投稿</h2>
     <%= form_with(model: @post, url: posts_path, local: true, multipart: true) do |f| %>
       <div class="form-group">
@@ -31,7 +31,7 @@
       <%= f.hidden_field :latitude, id: "latitude" %>
       <%= f.hidden_field :longitude, id: "longitude" %>
       <!-- Googleマップを表示 -->
-      <div id="map" style="height: 300px; width: 100%;"></div>
+      <div id="map" class="post-map"></div>
     
       <div class="form-group">
         <label>タグ</label><br>

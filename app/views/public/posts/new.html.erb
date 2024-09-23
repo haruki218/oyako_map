@@ -1,23 +1,7 @@
-<div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+<div class="d-flex flex-column justify-content-center align-items-center new-container">
   <h2>どちらの投稿ですか？</h2>
   <div class="d-flex justify-content-center mt-5">
-    <%= link_to '遊び場', new_play_posts_path, class: 'btn btn-success mr-3',
-      style:'
-        width: 300px;
-        height: 300px;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      ', data: {turbolinks: "false"} %>
-    <%= link_to '設備', new_facility_posts_path, class: 'btn btn-info',
-      style:'
-        width: 300px;
-        height: 300px;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      ', data: {turbolinks: "false"} %>
+    <%= link_to '遊び場', new_play_posts_path, class: 'btn btn-success mr-3 new-btn', data: {turbolinks: "false"} %>
+    <%= link_to '設備', new_facility_posts_path, class: 'btn btn-info new-btn', data: {turbolinks: "false"} %>
   </div>
 </div>

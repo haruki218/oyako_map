@@ -21,15 +21,15 @@
     <%= link_to 'コメントが多い順', tag_path(@tag, most_commented: "true", facility_type: params[:facility_type]) %>
   </div>
 
-  <table class="table">
+  <table class="table tags-table">
     <thead>
       <tr>
-        <th style="width: 10%;">画像</th>
-        <th style="width: 15%;">タイトル</th>
-        <th style="width: 10%;">評価</th>
-        <th style="width: 20%;">住所</th>
-        <th style="width: 20%;">コメント</th>
-        <th style="width: 25%;">タグ</th>
+        <th>画像</th>
+        <th>タイトル</th>
+        <th>評価</th>
+        <th>住所</th>
+        <th>コメント</th>
+        <th>タグ</th>
       </tr>
     </thead>
     <tbody>
@@ -38,11 +38,11 @@
           <td>
             <% if post.images.attached? %>
               <%= link_to post_path(post) do %>
-                <%= image_tag post.images.first.variant(resize_to_limit: [200, 200]) %>
+                <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "show-image" %>
               <% end %>
             <% else %>
               <%= link_to post_path(post) do %>
-                <%= image_tag asset_path('no-image.png'), style: "width: 200px; height: 150px; object-fit: cover; border-radius: 5px;" %>
+                <%= image_tag asset_path('no-image.png'), class: "show-image" %>
               <% end %>
             <% end %>
           </td>
