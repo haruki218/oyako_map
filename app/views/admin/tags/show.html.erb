@@ -4,45 +4,9 @@
   <%= render 'public/shared/filter', path: admin_tag_path(@tag) %>
   <!-- ソート機能 -->
   <%= render 'public/shared/posts_sort', path: admin_tag_path(@tag) %>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ユーザー</th>
-        <th>タイトル</th>
-        <th>評価</th>
-        <th>住所</th>
-        <th>コメント</th>
-        <th>タグ</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @posts.each do |post| %>
-        <tr>
-          <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
-          <td><%= link_to post.title, admin_post_path(post), data: {turbolinks: "false"} %></td>
-          <td>
-            <% if post.comments.any? %>
-              <%= number_with_precision(post.average_rating, precision: 1) %> / 5
-            <% else %>
-              評価なし
-            <% end %>
-          </td>
-          <td><%= post.address %></td>
-          <td>
-            <% if post.comments.any? %>
-              <%= post.comments.last.content.truncate(30) %>
-            <% else %>
-              コメントなし
-            <% end %>
-          </td>
-          <td>
-          <% post.tags.each do |tag| %>
-            <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
-          <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <!--一覧テーブル-->
+  <%= render 'admin/shared/posts_table', posts: @posts %>
+  <div class="row d-flex justify-content-center mb-3">
+    <%= paginate @posts %>
+  </div>
 </div>
