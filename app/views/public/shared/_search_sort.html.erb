@@ -1,0 +1,6 @@
+<div class="mb-3">
+  <%= link_to '新しい順', url_for(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
+  <%= link_to '古い順', url_for(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
+  <%= link_to '評価が高い順', url_for(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
+  <%= link_to 'コメントが多い順', url_for(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
+</div>

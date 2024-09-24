@@ -10,12 +10,7 @@
       <!-- 絞り込み機能 -->
       <%= render 'public/shared/filter', path: tag_path(@tag) %>
       <!-- ソート機能 -->
-      <div class="mb-3">
-        <%= link_to '新しい順', tag_path(@tag, latest: "true", facility_type: params[:facility_type]) %> |
-        <%= link_to '古い順', tag_path(@tag, old: "true", facility_type: params[:facility_type]) %> |
-        <%= link_to '評価が高い順', tag_path(@tag, highly_rated: "true", facility_type: params[:facility_type]) %> |
-        <%= link_to 'コメントが多い順', tag_path(@tag, most_commented: "true", facility_type: params[:facility_type]) %>
-      </div>
+      <%= render 'public/shared/posts_sort', path: tag_path(@tag) %>
     
       <table class="table">
         <thead>

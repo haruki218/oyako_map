@@ -48,12 +48,7 @@
   <!--絞り込み機能-->
   <%= render 'public/shared/filter', path: admin_search_path %>
   <!--ソート機能-->
-  <div class="mb-3">
-    <%= link_to '新しい順', admin_search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '古い順', admin_search_path(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '評価が高い順', admin_search_path(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to 'コメントが多い順', admin_search_path(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
-  </div>
+  <%= render 'public/shared/search_sort', path: admin_search_path %>
 
     <% if @records.any? %>
       <table class="table">

@@ -3,12 +3,7 @@
   <!--絞り込み機能-->
   <%= render 'public/shared/filter', path: admin_root_path %>
   <!--ソート機能-->
-  <div class="mb-3">
-    <%= link_to '新しい順', admin_root_path(latest: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '古い順', admin_root_path(old: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '評価が高い順', admin_root_path(highly_rated: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to 'コメントが多い順', admin_root_path(most_commented: "true", facility_type: params[:facility_type]) %>
-  </div>
+  <%= render 'public/shared/posts_sort', path: admin_root_path %>
 
   <table class="table">
     <thead>
