@@ -12,7 +12,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
+    @posts = @user.posts.page(params[:page]).per(5)
   end
   
   def posts
@@ -28,8 +28,9 @@ class Public::UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    redirect_to root_path, notice: "退会が完了しました"
+    current_user.update(is_active: false)
+    reset_session
+    redirect_to root_path, notice: "退会処理が完了しました"
   end
   
   private

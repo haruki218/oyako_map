@@ -11,7 +11,12 @@ Rails.application.routes.draw do
   # 管理者側
   namespace :admin do
     root to: 'posts#index'
-    resources :users, only: [:index, :show, :destroy]
+    resources :users, only: [:index, :show, :update] do
+      member do
+        delete :delete_all_posts
+        delete :delete_all_comments
+      end
+    end
     resources :posts, only: [:show, :edit, :update, :destroy] do
       resources :comments, only: [:destroy]
     end

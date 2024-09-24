@@ -1,3 +1,44 @@
 // Place all the styles related to the admin/users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.users-index-container .users-index-table th:nth-child(1) {
+  width: 20%;
+}
+.users-index-container .users-index-table th:nth-child(2) {
+  width: 10%;
+}
+.users-index-container .users-index-table th:nth-child(3) {
+  width: 30%;
+}
+.users-index-container .users-index-table th:nth-child(4) {
+  width: 30%;
+}
+.users-index-container .users-index-table th:nth-child(5) {
+  width: 10%;
+}
+
+
+.users-show-container .users-show-table th:nth-child(1) {
+  width: 15%;
+}
+.users-show-container .users-show-table th:nth-child(1) {
+  width: 20%;
+}
+.users-show-container .users-show-table th:nth-child(1) {
+  width: 20%;
+}
+.users-show-container .users-show-table th:nth-child(1) {
+  width: 15%;
+}
+.users-show-container .users-show-table th:nth-child(1) {
+  width: 30%;
+}
+
+.users-show-table .users-show-table-image {
+  width: 100px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 5px;
+}

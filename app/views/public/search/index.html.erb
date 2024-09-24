@@ -1,115 +1,126 @@
-<div class="container mt-3">
-
-  <% if @model == 'user' %>
-    <h2>ユーザー検索結果</h2>
-    <% if @records.any? %>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ユーザー名</th>
-            <th>最近の投稿</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @records.each do |user| %>
-            <% unless user.guest_user? %> <!--ゲストユーザーは表示しない-->
+<div class="custom-container-fluid mt-3">
+  <div class="row">
+    <!--サイドバー-->
+    <div class="col-md-2">
+      <%= render 'public/homes/sidebar' %>
+    </div>
+    <!--メインコンテンツ-->
+    <div class="col-md-10">
+      <% if @model == 'user' %>
+        <h1>"<%= @content %>"のユーザー検索結果</h1>
+        <% if @records.any? %>
+          <table class="table">
+            <thead>
               <tr>
-                <td><%= link_to user.name, user_path(user) %></td>
-                <td>
-                  <% if user.posts.any? %>
-                    <%= link_to user.posts.last.title, post_path(user.posts.last) %>
-                    <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
-                  <% else %>
-                    まだ投稿がありません
-                  <% end %>
-                </td>
+                <th>ユーザー名</th>
+                <th>最近の投稿</th>
               </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      <p>該当するユーザーが見つかりませんでした</p>
-    <% end %>
-
-  <% elsif @model == 'post' %>
-  <h2>投稿検索結果</h2>
-  <!--絞り込み機能-->
-  <%= form_with url: search_path, method: :get, local: true do |f| %>
-    <div class="input-group mb-3">
-      <div class="input-group-append">
-      <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
+            </thead>
+            <tbody>
+              <% @records.each do |user| %>
+                <% unless user.guest_user? %> <!--ゲストユーザーは表示しない-->
+                  <tr>
+                    <td><%= link_to user.name, user_path(user) %></td>
+                    <td>
+                      <% if user.posts.any? %>
+                        <%= link_to user.posts.last.title, post_path(user.posts.last), data: {turbolinks: "false"} %>
+                        <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
+                      <% else %>
+                        まだ投稿がありません
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>該当するユーザーが見つかりませんでした</p>
+        <% end %>
+    
+      <% elsif @model == 'post' %>
+      <h1>"<%= @content %>"の投稿検索結果</h1>
+      <!--絞り込み機能-->
+      <%= form_with url: search_path, method: :get, local: true do |f| %>
+        <div class="input-group mb-3">
+          <div class="input-group-append">
+          <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
+          </div>
+          <%= hidden_field_tag :model, @model %>
+          <%= hidden_field_tag :content, @content %> <!-- 検索条件を保持 -->
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" type="submit">
+              <i class="fas fa-search">絞り込む</i>
+            </button>
+          </div>
+        </div>
+      <% end %>
+      <!--ソート機能-->
+      <div class="mb-3">
+        <%= link_to '新しい順', search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
+        <%= link_to '古い順', search_path(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
+        <%= link_to '評価が高い順', search_path(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
+        <%= link_to 'コメントが多い順', search_path(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
       </div>
-      <%= hidden_field_tag :model, @model %>
-      <%= hidden_field_tag :content, @content %> <!-- 検索条件を保持 -->
-      <div class="input-group-append">
-        <button class="btn btn-outline-success" type="submit">
-          <i class="fas fa-search">絞り込む</i>
-        </button>
+    
+        <% if @records.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>画像</th>
+                <th>タイトル</th>
+                <th>評価</th>
+                <th>住所</th>
+                <th>コメント</th>
+                <th>タグ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @records.each do |post| %>
+                <tr>
+                  <td>
+                    <% if post.images.attached? %>
+                      <%= link_to post_path(post) do %>
+                        <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), class: "table-image", data: {turbolinks: "false"} %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to post_path(post) do %>
+                        <%= image_tag asset_path('no-image.png'), class: "table-image", data: {turbolinks: "false"} %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <td><%= link_to post.title, post_path(post), data: {turbolinks: "false"} %></td>
+                  <td>
+                    <% if post.comments.any? %>
+                      <%= number_with_precision(post.average_rating, precision: 1) %> / 5
+                    <% else %>
+                      評価なし
+                    <% end %>
+                  </td>
+                  <td><%= post.address %></td>
+                  <td>
+                    <% if post.comments.any? %>
+                      <%= post.comments.last.content.truncate(30) %>
+                    <% else %>
+                      コメントなし
+                    <% end %>
+                  </td>
+                  <td>
+                    <% post.tags.each do |tag| %>
+                      <span class="badge badge-info"><%= tag.name %></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p>該当する投稿が見つかりませんでした</p>
+        <% end %>
+      <% end %>
+      <div class="row d-flex justify-content-center mb-3">
+        <%= paginate @records %>
       </div>
     </div>
-  <% end %>
-  <!--ソート機能-->
-  <div class="mb-3">
-    <%= link_to '新しい順', search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '古い順', search_path(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '評価が高い順', search_path(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to 'コメントが多い順', search_path(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
   </div>
-
-    <% if @records.any? %>
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="width: 10%;">画像</th>
-            <th style="width: 15%;">タイトル</th>
-            <th style="width: 10%;">評価</th>
-            <th style="width: 20%;">住所</th>
-            <th style="width: 20%;">コメント</th>
-            <th style="width: 25%;">タグ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @records.each do |post| %>
-            <tr>
-              <td>
-                <% if post.images.attached? %>
-                  <%= link_to post_path(post) do %>
-                    <%= image_tag post.images.first.variant(resize_to_limit: [200, 150]), style: "width: 200px; height: 150px; object-fit: cover; border-radius: 5px;" %>
-                  <% end %>
-                <% else %>
-                  <%= link_to post_path(post) do %>
-                    <%= image_tag asset_path('no-image.png'), style: "width: 200px; height: 150px; object-fit: cover; border-radius: 5px;" %>
-                  <% end %>
-                <% end %>
-              </td>
-              <td><%= link_to post.title, post_path(post) %></td>
-              <td>
-                <% if post.comments.any? %>
-                  <%= number_with_precision(post.average_rating, precision: 1) %> / 5
-                <% else %>
-                  評価なし
-                <% end %>
-              </td>
-              <td><%= post.address %></td>
-              <td>
-                <% if post.comments.any? %>
-                  <%= post.comments.last.content.truncate(30) %>
-                <% else %>
-                  コメントなし
-                <% end %>
-              </td>
-              <td>
-                <% post.tags.each do |tag| %>
-                  <span class="badge badge-info"><%= tag.name %></span>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      <p>該当する投稿が見つかりませんでした</p>
-    <% end %>
-  <% end %>
 </div>

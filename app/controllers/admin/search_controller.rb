@@ -7,7 +7,7 @@ class Admin::SearchController < ApplicationController
     @facility_type = params[:facility_type] # 絞り込み用のfacility_type
     
     if @model == "user"
-      @records = User.search_for(@content)
+      @records = User.search_for(@content).page(params[:page]).per(8) # ページネーション
     elsif @model == "post"
       @records = Post.search_for(@content)
       # 検索結果に対して絞り込み
@@ -26,6 +26,8 @@ class Admin::SearchController < ApplicationController
       else
         @records = @records.latest
       end
+      # ページネーション
+      @records = @records.page(params[:page]).per(8)
     end
   end
 end

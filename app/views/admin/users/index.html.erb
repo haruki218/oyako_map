@@ -1,12 +1,13 @@
-<div class="container mt-3">
+<div class="container mt-3 users-index-container">
   <h1>ユーザー一覧</h1>
-  <table class="table">
+  <table class="table users-index-table">
     <thead>
       <tr>
         <th>ユーザー名</th>
         <th>登録日</th>
         <th>最近の投稿</th>
         <th>最近のコメント</th>
+        <th>ステータス</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +18,7 @@
             <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
             <td>
               <% if user.posts.any? %>
-                <%= link_to user.posts.last.title, admin_post_path(user.posts.last) %> 
+                <%= link_to user.posts.last.title, admin_post_path(user.posts.last), data: {turbolinks: "false"} %> 
                 <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
               <% else %>
                 まだ投稿がありません
@@ -29,6 +30,13 @@
                 <small>(<%= user.comments.last.created_at.strftime("%Y-%m-%d") %>)</small>
               <% else %>
                 まだコメントがありません
+              <% end %>
+            </td>
+            <td class="text-center">
+              <% if user.is_active? %>
+                <span class="badge badge-success">有効</span>
+              <% else %>
+                <span class="badge badge-danger">停止中</span>
               <% end %>
             </td>
           </tr>

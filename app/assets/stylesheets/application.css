@@ -13,3 +13,78 @@
  *= require_tree .
  *= require_self
  */
+main {
+  background-color: #fef4f4;
+}
+
+.navbar-custom {
+  background-color: #b5edab;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.footer-custom {
+  background-color: #b5edab;
+}
+
+.navbar-custom .nav-link,
+.navbar-custom span {
+  color:#28a745;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-custom .nav-link:hover {
+  color: #007b43;
+  text-decoration: underline;
+}
+
+.custom-container-fluid {
+  margin-right: 40px;
+  margin-left: 40px;
+}
+
+/*一覧テーブル*/
+.table th:nth-child(1) {
+  width: 10%;
+}
+.table th:nth-child(2) {
+  width: 15%;
+}
+.table th:nth-child(3) {
+  width: 10%;
+}
+.table th:nth-child(4) {
+  width: 20%;
+}
+.table th:nth-child(5) {
+  width: 20%;
+}
+.table th:nth-child(6) {
+  width: 25%;
+}
+.table-image {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/*投稿詳細*/
+.show-image {
+  width: 450px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.show-map {
+  width: 100%;
+  height: 400px;
+}

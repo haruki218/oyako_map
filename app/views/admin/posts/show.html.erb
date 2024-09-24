@@ -1,55 +1,76 @@
 <div class="container-fluid mt-3">
-  <h1><%= @post.title %></h1>
-  <% if @post.images.attached? %>
+  <h1 class="text-center"><%= @post.title %></h1>
+  <% if @images.any? %>
     <div class="row d-flex justify-content-center">
-      <% @post.images.each do |image| %>
+      <% @images.each do |image| %>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
-          <%= image_tag image.variant(resize_to_limit: [450, 300]), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
+          <%= image_tag image.variant(resize_to_limit: [450, 300]), class: "show-image" %>
         </div>
       <% end %>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <%= paginate @images %>
     </div>
   <% else %>
     <div class="row d-flex justify-content-center">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-flex align-items-center justify-content-center">
-        <%= image_tag asset_path('no-image.png'), style: "width: 450px; height: 300px; object-fit: cover; border-radius: 5px;" %>
+        <%= image_tag asset_path('no-image.png'), class: "show-image" %>
       </div>
     </div>
   <% end %>
 </div>
 
 <div class="container mt-3">
-  <p><strong>タグ:</strong>
-    <% @post.tags.each do |tag| %>
-        <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
-    <% end %>
-  </p>
-  <p><strong>〒</strong> <%= @post.postal_code %></p>
-  <p><strong>住所:</strong> <%= @post.address %></p>
-  <p><strong>評価:</strong>
-    <% if @post.comments.any? %>
-      平均評価: <strong><%= @post.average_rating.round(1) %></strong> / 5
-    <% else %>
-      評価なし
-    <% end %>
-  </p>
-  <p><small>投稿者: <%= link_to @post.user.name, admin_user_path(@post.user) %></small></p>
-  
-  <h3>コメント一覧</h3>
-  <% if @post.comments.any? %>
-    <ul class="list-group">
-      <% @post.comments.each do |comment| %>
-        <li class="list-group-item">
-          <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
-          <p><%= simple_format(comment.content) %></p>
-          <small>評価: <strong><%= comment.ratings.average(:score).to_f.round(1) %></strong> / 5</small>
-          <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
-            <%= link_to '削除', admin_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-        </li>
+  <nav> <!-- ナビゲーションコンポーネント -->
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">基本情報</a>
+      <a class="nav-item nav-link" id="nav-comment-tab" data-toggle="tab" href="#nav-comment" role="tab" aria-controls="nav-comment" aria-selected="false">口コミ</a>
+      <a class="nav-item nav-link" id="nav-map-tab" data-toggle="tab" href="#nav-map" role="tab" aria-controls="nav-map" aria-selected="false">地図</a>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+      <p><strong>タグ:</strong>
+        <% @post.tags.each do |tag| %>
+            <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
+        <% end %>
+      </p>
+      <p><strong>〒</strong> <%= @post.postal_code %></p>
+      <p><strong>住所:</strong> <%= @post.address %></p>
+      <p><strong>評価:</strong>
+        <% if @post.comments.any? %>
+          平均評価: <strong><%= @post.average_rating.round(1) %></strong> / 5
+        <% else %>
+          評価なし
+        <% end %>
+      </p>
+      <p><small>投稿者: <%= link_to @post.user.name, admin_user_path(@post.user) %></small></p>
+    </div>
+    
+    <div class="tab-pane fade" id="nav-comment" role="tabpanel" aria-labelledby="nav-comment-tab">
+      <h3>口コミ一覧</h3>
+      <% if @post.comments.any? %>
+        <ul class="list-group">
+          <% @post.comments.each do |comment| %>
+            <li class="list-group-item">
+              <strong><%= link_to comment.user.name, user_path(comment.user) %>:</strong>
+              <p><%= simple_format(comment.content) %></p>
+              <small>評価: <strong><%= comment.ratings.average(:score).to_f.round(1) %></strong> / 5</small>
+              <small><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+                <%= link_to '削除', admin_post_comment_path(@post, comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>口コミはまだありません。</p>
       <% end %>
-    </ul>
-  <% else %>
-    <p>コメントはまだありません。</p>
-  <% end %>
-  
-  <%= link_to '編集する', edit_admin_post_path(@post), class: 'btn btn-success my-3' %>
+    </div>
+
+    <div class="tab-pane fade" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab">
+      <div id="map" class="show-map" data-latitude="<%= @post.latitude %>" data-longitude="<%= @post.longitude %>" data-title="<%= @post.title %>">
+      </div>
+    </div>
+  </div>
+    <%= link_to '編集する', edit_admin_post_path(@post), class: 'btn btn-success my-3' %>
 </div>
+<%= javascript_pack_tag 'map', 'data-turbolinks-track': 'reload' %>

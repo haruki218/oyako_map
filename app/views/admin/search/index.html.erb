@@ -1,7 +1,7 @@
 <div class="container mt-3">
 
   <% if @model == 'user' %>
-    <h2>ユーザー検索結果</h2>
+    <h1>"<%= @content %>"のユーザー検索結果</h1>
     <% if @records.any? %>
       <table class="table">
         <thead>
@@ -20,7 +20,7 @@
                 <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
                 <td>
                   <% if user.posts.any? %>
-                    <%= link_to user.posts.last.title, admin_post_path(user.posts.last) %>
+                    <%= link_to user.posts.last.title, admin_post_path(user.posts.last), data: {turbolinks: "false"} %>
                     <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
                   <% else %>
                     まだ投稿がありません
@@ -44,7 +44,7 @@
     <% end %>
 
   <% elsif @model == 'post' %>
-  <h2>投稿検索結果</h2>
+  <h1>"<%= @content %>"の投稿検索結果</h1>
   <!--絞り込み機能-->
   <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
     <div class="input-group mb-3">
@@ -72,19 +72,19 @@
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 10%;">ユーザー</th>
-            <th style="width: 15%;">タイトル</th>
-            <th style="width: 10%;">評価</th>
-            <th style="width: 20%;">住所</th>
-            <th style="width: 20%;">コメント</th>
-            <th style="width: 25%;">タグ</th>
+            <th>ユーザー</th>
+            <th>タイトル</th>
+            <th>評価</th>
+            <th>住所</th>
+            <th>コメント</th>
+            <th>タグ</th>
           </tr>
         </thead>
         <tbody>
           <% @records.each do |post| %>
             <tr>
               <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
-              <td><%= link_to post.title, admin_post_path(post) %></td>
+              <td><%= link_to post.title, admin_post_path(post), data: {turbolinks: "false"} %></td>
               <td>
                 <% if post.comments.any? %>
                   <%= number_with_precision(post.average_rating, precision: 1) %> / 5
@@ -113,4 +113,7 @@
       <p>該当する投稿が見つかりませんでした</p>
     <% end %>
   <% end %>
+  <div class="row d-flex justify-content-center mb-3">
+    <%= paginate @records %>
+  </div>
 </div>
