@@ -2,7 +2,7 @@
   <div class="row">
     <!--サイドバー-->
     <div class="col-md-2">
-      <%= render 'public/homes/sidebar' %>
+      <%= render 'public/shared/sidebar' %>
     </div>
     <!--メインコンテンツ-->
     <div class="col-md-10">
@@ -107,7 +107,7 @@
                   </td>
                   <td>
                     <% post.tags.each do |tag| %>
-                      <span class="badge badge-info"><%= tag.name %></span>
+                      <%= link_to tag.name, tag_path(tag), class: "badge badge-info" %>
                     <% end %>
                   </td>
                 </tr>

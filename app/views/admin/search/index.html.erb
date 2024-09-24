@@ -102,7 +102,7 @@
               </td>
               <td>
                 <% post.tags.each do |tag| %>
-                  <span class="badge badge-info"><%= tag.name %></span>
+                  <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
                 <% end %>
               </td>
             </tr>
