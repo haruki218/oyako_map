@@ -24,7 +24,7 @@ https://drive.google.com/file/d/1ik26OH0rXGL7zq3xIhSkjXnpYJBA7oaH/view?usp=shari
 https://docs.google.com/spreadsheets/d/1Pna5U3iY6jksa-e8uRRyeLDpAp_HyUznU9qKpMKkBr0/edit?usp=sharing
 - アプリケーション詳細設計書
 https://docs.google.com/spreadsheets/d/1lxTqhjS1aA4oLttzaHT3qKuvj0kH4wrS30z97uOCSOg/edit?usp=sharing
--実装機能リスト
+- 実装機能リスト
 https://docs.google.com/spreadsheets/d/1wdRt3H2uEijTvd7RLQwlkZOd-0ZXCBcgra703yD85D0/edit?usp=sharing
 
 ## 開発環境
