@@ -1,18 +1,7 @@
 <div class="container mt-3">
   <h1><%= @tag.name %> の投稿一覧</h1>
   <!-- 絞り込み機能 -->
-  <%= form_with url: admin_tag_path(@tag), method: :get, local: true do |f| %>
-    <div class="input-group mb-3">
-      <div class="input-group-append">
-        <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
-      </div>
-      <div class="input-group-append">
-        <button class="btn btn-outline-success" type="submit">
-          <i class="fas fa-search">絞り込む</i>
-        </button>
-      </div>
-    </div>
-  <% end %>
+  <%= render 'public/shared/filter', path: admin_tag_path(@tag) %>
   <!-- ソート機能 -->
   <div class="mb-3">
     <%= link_to '新しい順', admin_tag_path(@tag, latest: "true", facility_type: params[:facility_type]) %> |

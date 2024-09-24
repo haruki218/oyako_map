@@ -41,20 +41,7 @@
       <% elsif @model == 'post' %>
       <h1>"<%= @content %>"の投稿検索結果</h1>
       <!--絞り込み機能-->
-      <%= form_with url: search_path, method: :get, local: true do |f| %>
-        <div class="input-group mb-3">
-          <div class="input-group-append">
-          <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
-          </div>
-          <%= hidden_field_tag :model, @model %>
-          <%= hidden_field_tag :content, @content %> <!-- 検索条件を保持 -->
-          <div class="input-group-append">
-            <button class="btn btn-outline-success" type="submit">
-              <i class="fas fa-search">絞り込む</i>
-            </button>
-          </div>
-        </div>
-      <% end %>
+      <%= render 'public/shared/filter', path: search_path %>
       <!--ソート機能-->
       <div class="mb-3">
         <%= link_to '新しい順', search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |

@@ -130,7 +130,7 @@ post7 = Post.find_or_create_by!(address: "東京都渋谷区代々木４丁目�
   post.latitude = 35.678957
   post.longitude = 139.693980
   post.user = user2
-  post.facility_type = "nursing_room2"
+  post.facility_type = "nursing_room"
   post.images.attach(
     [
       { io: File.open("#{Rails.root}/db/fixtures/nursing_room2.jpg"), filename: "nursing_room2.jpg" }
@@ -166,7 +166,7 @@ post9 = Post.find_or_create_by!(title: "札幌動物園") do |post|
 end
 
 post10 = Post.find_or_create_by!(title: "なかの公園") do |post|
-  post.address = "〒164-0001 東京都中野区中野２丁目５"
+  post.address = "東京都中野区中野２丁目５"
   post.postal_code = "164-0001"
   post.latitude = 35.703976
   post.longitude = 139.671269

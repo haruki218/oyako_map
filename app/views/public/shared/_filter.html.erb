@@ -1,0 +1,14 @@
+<%= form_with url: path, method: :get, local: true do |f| %>
+  <div class="input-group mb-3">
+    <div class="input-group-append">
+      <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
+    </div>
+    <%= hidden_field_tag :model, @model %> <!-- search/index で使用 -->
+    <%= hidden_field_tag :content, @content %> <!-- 検索条件保持 -->
+    <div class="input-group-append">
+      <button class="btn btn-outline-success" type="submit">
+        <i class="fas fa-search">絞り込む</i>
+      </button>
+    </div>
+  </div>
+<% end %>
