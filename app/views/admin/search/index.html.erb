@@ -46,69 +46,12 @@
   <% elsif @model == 'post' %>
   <h1>"<%= @content %>"の投稿検索結果</h1>
   <!--絞り込み機能-->
-  <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
-    <div class="input-group mb-3">
-      <div class="input-group-append">
-      <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
-      </div>
-      <%= hidden_field_tag :model, @model %>
-      <%= hidden_field_tag :content, @content %> <!-- 検索条件を保持 -->
-      <div class="input-group-append">
-        <button class="btn btn-outline-success" type="submit">
-          <i class="fas fa-search">絞り込む</i>
-        </button>
-      </div>
-    </div>
-  <% end %>
+  <%= render 'public/shared/filter', path: admin_search_path %>
   <!--ソート機能-->
-  <div class="mb-3">
-    <%= link_to '新しい順', admin_search_path(model: 'post', content: params[:content], latest: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '古い順', admin_search_path(model: 'post', content: params[:content], old: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '評価が高い順', admin_search_path(model: 'post', content: params[:content], highly_rated: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to 'コメントが多い順', admin_search_path(model: 'post', content: params[:content], most_commented: "true", facility_type: params[:facility_type]) %>
-  </div>
-
+  <%= render 'public/shared/search_sort', path: admin_search_path %>
     <% if @records.any? %>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ユーザー</th>
-            <th>タイトル</th>
-            <th>評価</th>
-            <th>住所</th>
-            <th>コメント</th>
-            <th>タグ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @records.each do |post| %>
-            <tr>
-              <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
-              <td><%= link_to post.title, admin_post_path(post), data: {turbolinks: "false"} %></td>
-              <td>
-                <% if post.comments.any? %>
-                  <%= number_with_precision(post.average_rating, precision: 1) %> / 5
-                <% else %>
-                  評価なし
-                <% end %>
-              </td>
-              <td><%= post.address %></td>
-              <td>
-                <% if post.comments.any? %>
-                  <%= post.comments.last.content.truncate(30) %>
-                <% else %>
-                  コメントなし
-                <% end %>
-              </td>
-              <td>
-                <% post.tags.each do |tag| %>
-                  <span class="badge badge-info"><%= tag.name %></span>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <!--一覧テーブル-->
+      <%= render 'admin/shared/posts_table', posts: @records %>
     <% else %>
       <p>該当する投稿が見つかりませんでした</p>
     <% end %>

@@ -1,64 +1,12 @@
 <div class="container mt-3">
   <h1><%= @tag.name %> の投稿一覧</h1>
   <!-- 絞り込み機能 -->
-  <%= form_with url: admin_tag_path(@tag), method: :get, local: true do |f| %>
-    <div class="input-group mb-3">
-      <div class="input-group-append">
-        <%= f.select :facility_type, options_for_select([['すべて', ''], ['遊び場', 'play'], ['授乳室', 'nursing_room'], ['おむつ替え', 'diaper_changing_station']]), { include_blank: false }, class: "custom-select" %>
-      </div>
-      <div class="input-group-append">
-        <button class="btn btn-outline-success" type="submit">
-          <i class="fas fa-search">絞り込む</i>
-        </button>
-      </div>
-    </div>
-  <% end %>
+  <%= render 'public/shared/filter', path: admin_tag_path(@tag) %>
   <!-- ソート機能 -->
-  <div class="mb-3">
-    <%= link_to '新しい順', admin_tag_path(@tag, latest: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '古い順', admin_tag_path(@tag, old: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to '評価が高い順', admin_tag_path(@tag, highly_rated: "true", facility_type: params[:facility_type]) %> |
-    <%= link_to 'コメントが多い順', admin_tag_path(@tag, most_commented: "true", facility_type: params[:facility_type]) %>
+  <%= render 'public/shared/posts_sort', path: admin_tag_path(@tag) %>
+  <!--一覧テーブル-->
+  <%= render 'admin/shared/posts_table', posts: @posts %>
+  <div class="row d-flex justify-content-center mb-3">
+    <%= paginate @posts %>
   </div>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ユーザー</th>
-        <th>タイトル</th>
-        <th>評価</th>
-        <th>住所</th>
-        <th>コメント</th>
-        <th>タグ</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @posts.each do |post| %>
-        <tr>
-          <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
-          <td><%= link_to post.title, admin_post_path(post), data: {turbolinks: "false"} %></td>
-          <td>
-            <% if post.comments.any? %>
-              <%= number_with_precision(post.average_rating, precision: 1) %> / 5
-            <% else %>
-              評価なし
-            <% end %>
-          </td>
-          <td><%= post.address %></td>
-          <td>
-            <% if post.comments.any? %>
-              <%= post.comments.last.content.truncate(30) %>
-            <% else %>
-              コメントなし
-            <% end %>
-          </td>
-          <td>
-          <% post.tags.each do |tag| %>
-            <%= link_to tag.name, admin_tag_path(tag), class: "badge badge-info" %>
-          <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
 </div>
