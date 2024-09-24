@@ -31,7 +31,7 @@
                 <%= image_tag asset_path('no-image.png'), class: "card-img-top", alt: "No image" %>
               <% end %>
               <div class="card-body">
-                <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+                <h5 class="card-title"><%= link_to post.title, post_path(post), data: {turbolinks: "false"} %></h5>
                 <% if post.comments.any? %>
                   <p class="card-text"><%= post.comments.first.content.truncate(50) %></p>
                 <% else %>
@@ -57,7 +57,7 @@
                 <%= image_tag asset_path('no-image.png'), class: "card-img-top", alt: "No image" %>
               <% end %>
               <div class="card-body">
-                <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+                <h5 class="card-title"><%= link_to post.title, post_path(post), data: {turbolinks: "false"} %></h5>
                 <% if post.comments.any? %>
                   <p class="card-text"><%= post.comments.first.content.truncate(50) %></p>
                 <% else %>

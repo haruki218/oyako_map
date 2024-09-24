@@ -20,7 +20,7 @@
                 <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
                 <td>
                   <% if user.posts.any? %>
-                    <%= link_to user.posts.last.title, admin_post_path(user.posts.last) %>
+                    <%= link_to user.posts.last.title, admin_post_path(user.posts.last), data: {turbolinks: "false"} %>
                     <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
                   <% else %>
                     まだ投稿がありません
@@ -84,7 +84,7 @@
           <% @records.each do |post| %>
             <tr>
               <td><%= link_to post.user.name, admin_user_path(post.user_id) %></td>
-              <td><%= link_to post.title, admin_post_path(post) %></td>
+              <td><%= link_to post.title, admin_post_path(post), data: {turbolinks: "false"} %></td>
               <td>
                 <% if post.comments.any? %>
                   <%= number_with_precision(post.average_rating, precision: 1) %> / 5

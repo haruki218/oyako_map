@@ -8,7 +8,7 @@
       <div class="prefecture-list">
         <% prefectures.each do |prefecture| %>
           <div class="prefecture-item">
-            <%= link_to prefecture, map_path(prefecture), class: "btn btn-outline-success btn-sm rounded-pill" %>
+            <%= link_to prefecture, map_path(prefecture), class: "btn btn-outline-success btn-sm rounded-pill", data: {turbolinks: "false"} %>
           </div>
         <% end %>
       </div>

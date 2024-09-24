@@ -18,7 +18,7 @@
             <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
             <td>
               <% if user.posts.any? %>
-                <%= link_to user.posts.last.title, admin_post_path(user.posts.last) %> 
+                <%= link_to user.posts.last.title, admin_post_path(user.posts.last), data: {turbolinks: "false"} %> 
                 <small>(<%= user.posts.last.created_at.strftime("%Y-%m-%d") %>)</small>
               <% else %>
                 まだ投稿がありません
