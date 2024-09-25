@@ -73,7 +73,6 @@ class Public::PostsController < ApplicationController
           end
         end
       end
-      
       redirect_to @post, notice: '投稿が作成されました'
     else
       redirect_back(fallback_location: root_path)

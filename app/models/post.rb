@@ -8,7 +8,6 @@ class Post < ApplicationRecord
   has_many_attached :images
   
   validates :address, presence: true
-  validate :validate_tag
   geocoded_by :address
   after_validation :geocode
   
@@ -30,12 +29,6 @@ class Post < ApplicationRecord
     ratings = comments.joins(:ratings).pluck(:score)
     return 0 if ratings.empty?
     ratings.sum.to_f / ratings.size
-  end
-
-  def validate_tag
-    if tag_ids.empty?
-      errors.add(:tags, "を1つ以上選択してください")
-    end
   end
 
   def self.search_for(content)
