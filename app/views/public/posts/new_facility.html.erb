@@ -20,12 +20,12 @@
     
       <div class="form-group">
           <%= f.label :address, "郵便番号" %>
-          <%= f.text_field :postal_code, class: "form-control", id: "postal_code", required: true %>
+          <%= f.text_field :postal_code, class: "form-control", id: "postal_code", required: true, placeholder: "入力または地図をクリックしてください" %>
       </div>
 
       <div class="form-group">
           <%= f.label :address, "住所" %>
-          <%= f.text_field :address, class: "form-control", id: "post_address", required: true %>
+          <%= f.text_field :address, class: "form-control", id: "post_address", required: true, placeholder: "入力または地図をクリックしてください" %>
       </div>
       <!-- 緯度と経度の入力フィールド -->
       <%= f.hidden_field :latitude, id: "latitude" %>
@@ -34,7 +34,8 @@
       <div id="map" class="post-map"></div>
     
       <div class="form-group">
-        <label>タグ</label><br>
+        <label class="tag_label">タグ</label>
+        <small class="form-text text-muted">該当するタグを少なくとも１つ選んでください</small>
         <div class="d-flex flex-wrap">
           <% Tag.all.each do |tag| %>
             <div class="form-check mr-3 mb-2">

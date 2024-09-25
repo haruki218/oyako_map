@@ -40,11 +40,15 @@ class Admin::TagsController < ApplicationController
     end
   end
 
-  def destroy
-    @tag = Tag.find(params[:id])
+def destroy
+  @tag = Tag.find(params[:id])
+  if @tag.posts.exists?
+    redirect_to admin_tags_path, alert: 'このタグは既に投稿で使用されています。削除できません。'
+  else
     @tag.destroy
     redirect_to admin_tags_path, notice: 'タグが削除されました'
   end
+end
   
   private
   

@@ -57,7 +57,11 @@ class Public::PostsController < ApplicationController
     elsif @post.facility_type.blank?
       @post.facility_type = 'play'
     end
-    
+    # タグが1つ以上選択されているか確認
+    if params[:post][:tag_ids].blank?
+      flash[:alert] = '少なくとも1つのタグを選択してください'
+      redirect_back(fallback_location: root_path) and return
+    end
     if @post.save
       @post.tags = Tag.where(id: params[:post][:tag_ids])
       if params[:comment].present? && params[:comment][:content].present?
@@ -69,10 +73,9 @@ class Public::PostsController < ApplicationController
           end
         end
       end
-      
       redirect_to @post, notice: '投稿が作成されました'
     else
-      render :new_play
+      redirect_back(fallback_location: root_path)
     end
   end
 

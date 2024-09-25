@@ -7,10 +7,20 @@
     </div>
   
     <div class="form-group">
-      <%= f.label :address, "住所" %>
-      <%= f.text_field :address, class: "form-control", required: true %>
+        <%= f.label :address, "郵便番号" %>
+        <%= f.text_field :postal_code, class: "form-control", id: "postal_code", required: true %>
     </div>
-
+  
+    <div class="form-group">
+      <%= f.label :address, "住所" %>
+      <%= f.text_field :address, class: "form-control", id: "post_address", required: true %>
+    </div>
+    <!-- 緯度と経度の入力フィールド -->
+    <%= f.hidden_field :latitude, id: "latitude" %>
+    <%= f.hidden_field :longitude, id: "longitude" %>
+    <!-- Googleマップを表示 -->
+    <div id="map" class="post-map"></div>
+    
     <div class="form-group">
       <label>タグ</label><br>
       <div class="d-flex flex-wrap">
