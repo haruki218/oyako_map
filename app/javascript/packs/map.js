@@ -109,6 +109,40 @@ async function initMap() {
             }
         });
     }
+    
+    // 住所入力時の処理
+    document.getElementById('post_address').addEventListener('change', function() {
+        const address = this.value;
+        if (address) {
+            geocodeAddress(address);
+        }
+    });
+}
+
+// 住所から緯度・経度を取得し、地図に反映する関数
+function geocodeAddress(address) {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: address }, (results, status) => {
+        if (status === 'OK') {
+            const latLng = results[0].geometry.location;
+
+            // 緯度・経度をフォームの隠しフィールドにセット
+            document.getElementById('latitude').value = latLng.lat();
+            document.getElementById('longitude').value = latLng.lng();
+
+            // 地図の中心を新しい緯度・経度に更新
+            map.setCenter(latLng);
+            if (currentMarker) {
+                currentMarker.setMap(null);
+            }
+            currentMarker = new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+        } else {
+            alert('住所が見つかりません: ' + status);
+        }
+    });
 }
 
 // 複数のマーカーを地図に追加
