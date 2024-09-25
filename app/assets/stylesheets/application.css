@@ -16,6 +16,14 @@
 main {
   background-color: #fef4f4;
 }
+.navbar-toggler {
+  z-index: 10; /* ハンバーガーメニューを前面に */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23007b43' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'%2F%3E%3C%2Fsvg%3E") !important;
+}
+
 
 .navbar-custom {
   background-color: #b5edab;
