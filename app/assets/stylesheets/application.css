@@ -47,11 +47,42 @@ main {
   color:#28a745;
   font-weight: bold;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .navbar-custom .nav-link:hover {
   color: #007b43;
   text-decoration: underline;
+}
+
+.nav-link .icon {
+  filter: brightness(1);
+  transition: filter 0.3s ease;
+}
+
+.nav-link:hover .icon {
+  filter: brightness(0.7);
+}
+.nav-item .icon {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 5px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  height: 80px;
+}
+
+.navbar .navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
 }
 
 .custom-container-fluid {
@@ -95,4 +126,11 @@ main {
 .show-map {
   width: 100%;
   height: 400px;
+}
+
+/*テキストの折り返し*/
+.list-group-item p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
