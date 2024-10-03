@@ -35,8 +35,8 @@ class Admin::TagsController < ApplicationController
     if @tag.save
       redirect_to admin_tags_path, notice: 'タグが作成されました'
     else
-      @tag = Tag.all
-      render :index, alert: 'タグの作成に失敗しました'
+      @tags = Tag.all
+      redirect_to admin_tags_path, alert: 'タグの作成に失敗しました'
     end
   end
 
